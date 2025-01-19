@@ -1,5 +1,6 @@
 <script setup>
 import {computed, useSlots} from 'vue';
+import formatPrice from "../../utils/formatPrice.js";
 const emits = defineEmits(['click']);
 const props = defineProps({
   text: {
@@ -18,6 +19,8 @@ const props = defineProps({
   gold: Boolean,
   transparent: Boolean,
   no_border: Boolean,
+  price: Number,
+  secondary: Boolean
 });
 const classObject = computed(() => {
   return {
@@ -27,6 +30,7 @@ const classObject = computed(() => {
     gold: props.gold,
     icon: props.icon,
     no_border: props.no_border,
+    secondary: props.secondary
   };
 });
 const slots = useSlots()
@@ -38,7 +42,15 @@ const hasSlots = computed(()=>!!slots.default)
     <div class="h-6 max-w-6 flex items-center" v-if="hasSlots">
       <slot></slot>
     </div>
-    {{ text }}
+    <span :class="{'flex items-center justify-center relative w-full': price > 0}">
+      <span>{{ text }}</span>
+      <span
+        v-if="price > 0"
+        :class="{'flex items-center absolute opacity-70 right-0': price > 0}"
+      >
+        {{formatPrice(price)}}
+      </span>
+    </span>
   </button>
 </template>
 
@@ -86,5 +98,9 @@ const hasSlots = computed(()=>!!slots.default)
 
 .no_border {
   border: none !important;
+}
+
+.secondary {
+  @apply text-green bg-white border border-solid border-green hover:bg-neutral-200
 }
 </style>

@@ -4,10 +4,12 @@
 
 <template>
 
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M2.00977 12H21.9912" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
-    <path d="M12.001 2.00977L12.001 21.9912" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
+
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M1.12207 8H14.8779" stroke="black" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M8 1.12207L8 14.8779" stroke="black" stroke-width="1.2" stroke-linecap="round"/>
   </svg>
+
 
 </template>
 

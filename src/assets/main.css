@@ -85,6 +85,31 @@ body:has(.task__base) {
 }
 
 @layer components {
+
+  .horizontal-scroll-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -20px;
+    width: 20px;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .more-button-blur::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -20px;
+    width: 90px;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+    pointer-events: none;
+    z-index: 1;
+  }
+
   .checkbox {
     display: none;
   }

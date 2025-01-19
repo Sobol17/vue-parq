@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
 import IconRadio from "@/components/icons/IconRadio.vue";
-import random_alpha_numeric from "@/utils/random_alpha_numeric.js";
+import randomAlphaNumeric from "@/utils/randomAlphaNumeric.js";
 
 const isChecked = ref(false)
 const id = ref()
@@ -18,6 +18,7 @@ const props = defineProps({
   },
   disabled: Boolean,
   sm: Boolean,
+  circle: Boolean
 })
 
 watch(
@@ -33,7 +34,7 @@ function handleCheckboxChange(event) {
 }
 
 onMounted(() => {
-  id.value = random_alpha_numeric(15)
+  id.value = randomAlphaNumeric(15)
   isChecked.value = props.modelValue
 })
 </script>
@@ -52,6 +53,7 @@ onMounted(() => {
     />
     <span
       class="response__form-checkbox-view response__form-checkbox-personalData"
+      :class="{'response__form-checkbox-circle': props.circle}"
     >
 			<IconRadio class="response__form-checkbox-icon" />
 		</span>
@@ -94,5 +96,9 @@ onMounted(() => {
 + .response__form-checkbox-view
 .response__form-checkbox-icon {
   @apply opacity-100;
+}
+
+.response__form-checkbox-circle {
+  @apply rounded-full size-6;
 }
 </style>

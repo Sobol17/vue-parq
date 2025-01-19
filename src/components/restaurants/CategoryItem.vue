@@ -1,8 +1,9 @@
 <script setup>
 
-const props = defineProps({
+defineProps({
   icon: Object,
-  text: String
+  text: String,
+  isActive: Boolean,
 })
 
 </script>

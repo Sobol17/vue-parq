@@ -1,7 +1,7 @@
 <script setup>
 import RestaurantsHeader from "@/components/layouts/RestaurantsHeader.vue";
 import AppSearch from "@/components/UI/AppSearch.vue";
-import {ref} from "vue";
+import {computed, onMounted, onUnmounted, ref} from "vue";
 import CategoryItem from "@/components/restaurants/CategoryItem.vue";
 import {useRestaurantsStore} from "@/stores/restaurants.js";
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -13,17 +13,33 @@ import 'swiper/css/pagination';
 import IconFullArrow from "@/components/icons/IconFullArrow.vue";
 import Card from "@/components/restaurants/Card.vue";
 import AppButton from "@/components/UI/AppButton.vue";
+import {useCartStore} from "@/stores/cart.js";
 
 const modules = [ Pagination ];
 
 const search = ref('')
 
 const restaurantsStore = useRestaurantsStore()
+const cartStore = useCartStore()
+
+const fixedHeader = ref(false)
+
+const handleScroll = () => {
+  fixedHeader.value = window.scrollY > 300;
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+})
 </script>
 
 <template>
-<div class="container">
-  <RestaurantsHeader />
+<div class="container" :class="{'pt-[48px]': fixedHeader}">
+  <RestaurantsHeader :fixed="fixedHeader" />
 
   <AppSearch
     class="mt-6"
@@ -63,7 +79,7 @@ const restaurantsStore = useRestaurantsStore()
     <div class="categories-pagination"></div>
   </section>
 
-  <section>
+  <section id="recently">
     <div class="flex justify-between items-center mt-6">
       <h3 class="text-body-l-medium">Recently ordered</h3>
       <IconFullArrow class="text-green" />
@@ -74,16 +90,21 @@ const restaurantsStore = useRestaurantsStore()
       slides-per-view="auto"
       :space-between="10"
     >
-      <swiper-slide class="card-swiper-slide" v-for="item in 10">
+      <swiper-slide class="card-swiper-slide" v-for="item in restaurantsStore.recentlyOrdered">
         <Card
-          name="Kurure ramen asian"
-          measure="312g"
+          :id="item.id"
+          :price="item.price"
+          :name="item.name"
+          :measure="item.measure"
+          :count="item.count"
+          :description="item.description"
+          :adds="item.adds"
         />
       </swiper-slide>
     </swiper>
   </section>
 
-  <section>
+  <section id="popular">
     <div class="flex justify-between items-center mt-6">
       <h3 class="text-body-l-medium">Popular dishes</h3>
       <IconFullArrow class="text-green" />
@@ -94,16 +115,21 @@ const restaurantsStore = useRestaurantsStore()
       slides-per-view="auto"
       :space-between="10"
     >
-      <swiper-slide class="card-swiper-slide" v-for="item in 10">
+      <swiper-slide class="card-swiper-slide" v-for="item in restaurantsStore.popularDishes">
         <Card
-          name="Kurure ramen asian"
-          measure="312g"
+          :id="item.id"
+          :price="item.price"
+          :name="item.name"
+          :measure="item.measure"
+          :count="item.count"
+          :description="item.description"
+          :adds="item.adds"
         />
       </swiper-slide>
     </swiper>
   </section>
 
-  <section class="mb-20">
+  <section id="cofee" class="mb-20">
     <h3 class="text-body-l-medium text-center mt-6">Cofee</h3>
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-[10px] gap-y-[18px] mt-3">
       <Card
@@ -118,6 +144,7 @@ const restaurantsStore = useRestaurantsStore()
   <AppButton
     class="fixed bottom-5 right-5 left-5"
     text="Order"
+    :price="cartStore.totalPrice"
     gold
   />
 </div>

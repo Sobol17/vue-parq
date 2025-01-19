@@ -10,6 +10,7 @@ export default {
       'green-txt': '#219C2B',
       'green-dark': '#557C60',
       'green-light': '#E9F7E9',
+      'green-light-2': '#A9CCC0',
       gold: '#BBAB70',
       yellow: '#fcce2c',
       black: '#141414',
