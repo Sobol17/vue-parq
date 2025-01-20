@@ -55,7 +55,7 @@ const showFullDescription = ref(false)
 
 const addAddsToCart = (adds) => {
   if (inCart) {
-    if (!inCart.value.selectedAdds) {
+    if (!inCart.value?.selectedAdds) {
       inCart.value.selectedAdds = [];
     }
     inCart.value.selectedAdds = adds;
@@ -117,7 +117,7 @@ const addAddsToCart = (adds) => {
             v-for="item in adds"
             :title="item.title"
             :price="item.price"
-            :checked="inCart.selectedAdds?.includes(item)"
+            :checked="inCart?.selectedAdds?.includes(item)"
             @add-param="addAddsToCart(item)"
           />
         </div>

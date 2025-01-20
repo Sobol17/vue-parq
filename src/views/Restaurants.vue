@@ -14,6 +14,7 @@ import IconFullArrow from "@/components/icons/IconFullArrow.vue";
 import Card from "@/components/restaurants/Card.vue";
 import AppButton from "@/components/UI/AppButton.vue";
 import {useCartStore} from "@/stores/cart.js";
+import {useRoute, useRouter} from "vue-router";
 
 const modules = [ Pagination ];
 
@@ -35,6 +36,12 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
 })
+
+const router = useRouter()
+const route = useRoute()
+const scrollToSection = (categoryItem) => {
+  router.push({hash: `#${categoryItem.text.toLowerCase()}`})
+}
 </script>
 
 <template>
@@ -72,6 +79,8 @@ onUnmounted(() => {
             :key="category.text"
             :icon="category.icon"
             :text="category.text"
+            :is-active="route.hash === `#${category.text.toLowerCase()}`"
+            @click="scrollToSection"
           />
         </div>
       </swiper-slide>
@@ -133,10 +142,15 @@ onUnmounted(() => {
     <h3 class="text-body-l-medium text-center mt-6">Cofee</h3>
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-[10px] gap-y-[18px] mt-3">
       <Card
+        v-for="item in restaurantsStore.exampleCat"
+        :id="item.id"
+        :price="item.price"
+        :name="item.name"
+        :measure="item.measure"
+        :count="item.count"
+        :description="item.description"
+        :adds="item.adds"
         grid
-        v-for="item in 8"
-        name="Kurure ramen asian"
-        measure="312g"
       />
     </div>
   </section>
