@@ -1,6 +1,10 @@
 <script setup>
 import { ref } from 'vue';
 
+const props = defineProps({
+  fullScreen: Boolean
+})
+
 const isOpen = ref(false);
 
 const openModal = () => {
@@ -26,7 +30,8 @@ defineExpose({ openModal, closeModal });
   <Transition name="slide-up">
     <div
       v-if="isOpen"
-      class="fixed inset-x-0 bottom-0 top-0 z-50 mx-auto flex flex-col overflow-y-auto bg-white shadow-lg"
+      class="modal-content"
+      :class="{'modal-content--fullscreen': fullScreen}"
     >
       <div
         @click="closeModal"
@@ -41,6 +46,15 @@ defineExpose({ openModal, closeModal });
 </template>
 
 <style scoped>
+
+.modal-content {
+  @apply fixed inset-x-0 bottom-0 z-50 mx-auto flex flex-col overflow-y-auto bg-white shadow-lg rounded-t-[16px]
+}
+
+.modal-content--fullscreen {
+  @apply top-0 rounded-none
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;

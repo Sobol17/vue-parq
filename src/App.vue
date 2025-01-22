@@ -1,12 +1,11 @@
 <script setup>
-import {ref} from "vue";
 import {useRoute} from "vue-router";
 
 const route = useRoute()
 </script>
 
 <template>
-  <div class="wrapper" :class="{'wrapper--dark': route.path === '/orders'}">
+  <div class="wrapper" :class="{'wrapper--dark': route.path === '/orders' || route.name === 'orderId'}">
     <RouterView />
   </div>
 </template>

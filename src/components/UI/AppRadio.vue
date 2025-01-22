@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import IconRadio from "@/components/icons/IconRadio.vue";
-import random_alpha_numeric from "@/utils/random_alpha_numeric.js";
+import randomAlphaNumeric from "@/utils/randomAlphaNumeric.js";
 
 const id = ref();
 
@@ -16,7 +16,7 @@ const props = defineProps({
   },
   disabled: Boolean,
   sm: Boolean,
-  label: Boolean
+  label: Boolean,
 });
 
 function handleCheckboxChange(event) {
@@ -24,57 +24,63 @@ function handleCheckboxChange(event) {
 }
 
 onMounted(() => {
-  id.value = random_alpha_numeric(15);
+  id.value = randomAlphaNumeric(15);
 });
 </script>
 
 <template>
-  <label :for="id" class="response__form-label">
+  <label :for="id" class="radio__label">
     <input
       type="radio"
       :id="id"
       :value="props.value"
       :disabled="props.disabled"
-      class="response__form-checkbox"
+      class="radio__input"
       :name="props.name"
       :checked="props.modelValue === props.value"
       @change="handleCheckboxChange"
     >
-    <span class="response__form-checkbox-view response__form-checkbox-personalData">
-      <icon-radio class="response__form-checkbox-icon"/>
+    <span class="radio__input-view">
+      <icon-radio class="radio__input-icon"/>
     </span>
-    <p v-if="label" class="response__form-text">{{ props.name }}</p>
+    <div class="radio__text__wrapper" :class="{'radio__text__wrapper--disabled': disabled}">
+      <slot></slot>
+    </div>
   </label>
 </template>
 <style scoped>
-.response__form-checkbox {
+.radio__input {
   position: absolute;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
 
-.response__form-label {
-  @apply cursor-pointer flex items-center;
+.radio__label {
+  @apply cursor-pointer flex items-start pt-4;
 }
 
-.response__form-checkbox-view {
-  @apply flex items-center mr-2.5 border border-solid border-neutral-300 rounded-[20px] justify-center bg-white transition-all duration-300 w-[24px] h-[24px];
+.radio__input-view {
+  @apply flex items-center mr-2.5 rounded-[20px] justify-center bg-transparent transition-all duration-300 w-[24px] h-[24px];
 }
 
-.response__form-text {
-  @apply text-body-m-regular
+.radio__text__wrapper--disabled {
+  @apply text-neutral-500
 }
 
-.response__form-checkbox-icon {
+.radio__input-icon {
   @apply opacity-0 transition-all duration-300
 }
 
-.response__form-checkbox:checked + .response__form-checkbox-view .response__form-checkbox-icon {
+.radio__input:checked + .radio__input-view .radio__input-icon {
   @apply opacity-100 border-none
 }
 
-.response__form-checkbox:checked + .response__form-checkbox-view {
-  @apply bg-green rounded-full
+.radio__input:checked + .radio__input-view {
+  @apply bg-green rounded-full border-none
+}
+
+.radio__text__wrapper {
+  @apply flex justify-between items-center flex-grow border-b border-solid border-neutral-300 pb-4
 }
 </style>

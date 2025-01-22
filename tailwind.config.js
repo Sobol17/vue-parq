@@ -14,6 +14,7 @@ export default {
       gold: '#BBAB70',
       yellow: '#fcce2c',
       black: '#141414',
+      'black-200': '#2C2C2C',
       'black-300': '#1F1F1F',
       'black-400': '#333333',
       'neutral-500': '#7C8388',

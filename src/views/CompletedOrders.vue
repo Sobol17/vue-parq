@@ -1,13 +1,13 @@
 <script setup>
 
 import Header from "@/components/layouts/Header.vue";
-import CompletedOrdersCard from "@/components/completedOrders/CompletedOrdersCard.vue";
+import CompletedOrdersCard from "@/components/restaurants/completedOrders/CompletedOrdersCard.vue";
 import IconParq from "@/components/icons/IconParq.vue";
 </script>
 
 <template>
 <main>
-  <Header title="Completed Orders"/>
+  <Header title="Completed Orders" link="/"/>
 
   <div class="mt-6 flex flex-col gap-y-4 pb-8">
     <CompletedOrdersCard

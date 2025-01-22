@@ -1,35 +1,67 @@
 <script setup>
 import AppCheckbox from "@/components/UI/AppCheckbox.vue";
+import { computed } from "vue";
 import formatPrice from "../../utils/formatPrice.js";
 
 const props = defineProps({
-  checked: Boolean,
-  title: String,
-  price: Number
-})
+  item: {
+    type: Object,
+    required: true,
+  },
+  isChecked: {
+    type: Boolean,
+    required: true,
+  },
+  withoutPrice: {
+    type: Boolean,
+    default: true
+  },
+  additionalText: {
+    type: String,
+  },
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  transparent: {
+    type: Boolean,
+    default: false
+  }
+});
 
-const {checked, ...rest} = props;
+const emits = defineEmits(["update:checked"]);
 
-const itemToEmit = {...rest};
-
-const emits = defineEmits(['addParam'])
-
+const handleCheckboxChange = (value) => {
+  emits("update:checked", value);
+};
 </script>
 
 <template>
-<div class="flex items-start gap-x-4">
-  <AppCheckbox
-    :checked="checked"
-    @update:modelValue="$event ? emits('addParam', itemToEmit) : null"
-    circle
-  />
-  <div @click="emits('addParam', itemToEmit)" class="flex flex-grow items-center border-b border-solid border-neutral-300 pb-5">
-    <div class="text-body-m-medium text-black-300">{{title}}</div>
-    <div class="text-body-m-medium text-green ml-auto">+ {{formatPrice(price)}}</div>
+  <div class="flex items-center gap-x-4">
+    <AppCheckbox
+      :checked="isChecked"
+      @update:modelValue="handleCheckboxChange"
+      :transparent="transparent"
+      circle
+    />
+    <div class="line-label">
+      <div class="line-title" :class="{'line-title--disabled': disabled}">{{ item.title }}</div>
+      <div v-if="withoutPrice" class="text-body-m-medium text-green ml-auto">+ {{ formatPrice(item.price) }}</div>
+      <div v-if="additionalText" class="text-body-m-regular text-neutral-500 ml-auto">{{ additionalText }}</div>
+    </div>
   </div>
-</div>
 </template>
 
 <style scoped>
+.line-label {
+  @apply flex flex-grow items-center border-b border-solid border-neutral-300 py-4;
+}
 
+.line-title {
+  @apply text-body-m-medium text-black-300;
+}
+
+.line-title--disabled {
+  @apply text-neutral-500
+}
 </style>

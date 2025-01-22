@@ -108,6 +108,7 @@ const scrollToSection = (categoryItem) => {
           :count="item.count"
           :description="item.description"
           :adds="item.adds"
+          :selected-adds="item.selectedAdds"
         />
       </swiper-slide>
     </swiper>
@@ -133,6 +134,7 @@ const scrollToSection = (categoryItem) => {
           :count="item.count"
           :description="item.description"
           :adds="item.adds"
+          :selected-adds="item.selectedAdds"
         />
       </swiper-slide>
     </swiper>
@@ -150,12 +152,14 @@ const scrollToSection = (categoryItem) => {
         :count="item.count"
         :description="item.description"
         :adds="item.adds"
+        :selected-adds="item.selectedAdds"
         grid
       />
     </div>
   </section>
 
   <AppButton
+    @click="router.push({name: 'order'})"
     class="fixed bottom-5 right-5 left-5"
     text="Order"
     :price="cartStore.totalPrice"

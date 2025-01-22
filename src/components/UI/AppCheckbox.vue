@@ -18,7 +18,8 @@ const props = defineProps({
   },
   disabled: Boolean,
   sm: Boolean,
-  circle: Boolean
+  circle: Boolean,
+  transparent: Boolean
 })
 
 watch(
@@ -44,7 +45,7 @@ onMounted(() => {
     <input
       type="checkbox"
       :id="id"
-      :checked="isChecked"
+      :checked="props.checked"
       :value="props.value"
       :disabled="props.disabled"
       class="response__form-checkbox"
@@ -53,11 +54,10 @@ onMounted(() => {
     />
     <span
       class="response__form-checkbox-view response__form-checkbox-personalData"
-      :class="{'response__form-checkbox-circle': props.circle}"
+      :class="{'response__form-checkbox-circle': props.circle, 'response__form-checkbox-transparent': props.transparent}"
     >
 			<IconRadio class="response__form-checkbox-icon" />
 		</span>
-    <p class="response__form-text">{{ props.name }}</p>
   </label>
 </template>
 
@@ -100,5 +100,9 @@ onMounted(() => {
 
 .response__form-checkbox-circle {
   @apply rounded-full size-6;
+}
+
+.response__form-checkbox-transparent {
+  @apply invisible;
 }
 </style>

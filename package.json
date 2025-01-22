@@ -11,11 +11,13 @@
   },
   "homepage": "https://Sobol17.github.io/vue-parq",
   "dependencies": {
+    "@vueuse/core": "^12.4.0",
     "axios": "^1.7.9",
     "pinia": "^2.3.0",
     "swiper": "^11.2.1",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
+    "vue-router": "^4.5.0",
+    "vue-tg": "^0.8.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",

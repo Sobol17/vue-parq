@@ -6,6 +6,8 @@ import IconMinus from "@/components/icons/IconMinus.vue";
 import {useCartStore} from "@/stores/cart.js";
 import Modal from "@/components/modals/Modal.vue";
 import CheckboxLine from "@/components/restaurants/CheckboxLine.vue";
+import formatPrice from "@/utils/formatPrice.js";
+import AppCheckbox from "@/components/UI/AppCheckbox.vue";
 
 const props = defineProps({
   id: Number,
@@ -17,7 +19,8 @@ const props = defineProps({
   grid: Boolean,
   count: Number,
   description: String,
-  adds: Array
+  adds: Array,
+  selectedAdds: Array
 })
 
 const cartStore = useCartStore()
@@ -53,15 +56,16 @@ const closeModal = () => {
 const showFullDescription = ref(false)
 
 
-const addAddsToCart = (adds) => {
-  if (inCart) {
-    if (!inCart.value?.selectedAdds) {
-      inCart.value.selectedAdds = [];
-    }
-    inCart.value.selectedAdds = adds;
+const addAddsToCart = (addItem) => {
+  if (inCart.value.selectedAdds.includes(addItem)) {
+    inCart.value.selectedAdds = inCart.value.selectedAdds.filter(item => item.title !== addItem.title)
   } else {
-    console.error("Элемент с указанным ID не найден в корзине.");
+    inCart.value.selectedAdds.push(addItem)
   }
+};
+
+const isAddChecked = (add) => {
+  return inCart.value?.selectedAdds?.some(item => add.title === item.title) || false;
 };
 </script>
 
@@ -93,7 +97,7 @@ const addAddsToCart = (adds) => {
   </div>
 
   <Teleport to="body">
-    <Modal ref="modal">
+    <Modal ref="modal" full-screen>
       <div class="px-5 text-center">
         <div class="mt-3 max-w-[400px] mx-auto">
           <img class="w-full" src="@/assets/images/food.png" alt="">
@@ -115,10 +119,10 @@ const addAddsToCart = (adds) => {
         <div class="flex flex-col gap-y-3 mt-3">
           <CheckboxLine
             v-for="item in adds"
-            :title="item.title"
-            :price="item.price"
-            :checked="inCart?.selectedAdds?.includes(item)"
-            @add-param="addAddsToCart(item)"
+            :key="item"
+            :item="item"
+            :is-checked="isAddChecked(item)"
+            @update:checked="addAddsToCart(item)"
           />
         </div>
       </div>

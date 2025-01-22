@@ -44,7 +44,7 @@ const scrollToSection = (categoryItem) => {
       <div class="font-lora text-headline">Restaurants</div>
       <IconArrowDown md />
     </div>
-    <AppButton icon text="">
+    <AppButton icon text="" @click="router.push('/orders')">
       <IconMenu />
     </AppButton>
   </div>
@@ -68,7 +68,7 @@ const scrollToSection = (categoryItem) => {
 
   <!-- Restaurants list modal -->
   <Teleport to="body">
-    <Modal ref="modal">
+    <Modal ref="modal" full-screen>
 
       <div class="flex items-baseline justify-between px-5 mt-4">
         <div class="font-lora text-headline">Choose a restaurant</div>

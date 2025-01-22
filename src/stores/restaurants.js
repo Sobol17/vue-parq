@@ -64,7 +64,8 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
           title: 'Milk - normal milk',
           price: 7200
         }
-      ]
+      ],
+      selectedAdds: []
     },
     {
       id: 2,
@@ -84,7 +85,8 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
           title: 'Milk - normal milk',
           price: 7200
         }
-      ]
+      ],
+      selectedAdds: []
     },
     {
       id: 3,
@@ -104,7 +106,8 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
           title: 'Milk - normal milk',
           price: 7200
         }
-      ]
+      ],
+      selectedAdds: []
     },
     {
       id: 4,
@@ -124,7 +127,8 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
           title: 'Milk - normal milk',
           price: 7200
         }
-      ]
+      ],
+      selectedAdds: []
     },
     {
       id: 5,
@@ -144,7 +148,8 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
           title: 'Milk - normal milk',
           price: 7200
         }
-      ]
+      ],
+      selectedAdds: []
     },
   ])
 
@@ -167,7 +172,8 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
           title: 'Milk - normal milk',
           price: 7200
         }
-      ]
+      ],
+      selectedAdds: []
     },
     {
       id: 7,
@@ -187,7 +193,8 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
           title: 'Milk - normal milk',
           price: 7200
         }
-      ]
+      ],
+      selectedAdds: []
     },
     {
       id: 8,
@@ -207,7 +214,8 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
           title: 'Milk - normal milk',
           price: 7200
         }
-      ]
+      ],
+      selectedAdds: []
     },
     {
       id: 9,
@@ -227,7 +235,8 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
           title: 'Milk - normal milk',
           price: 7200
         }
-      ]
+      ],
+      selectedAdds: []
     },
     {
       id: 11,
@@ -247,7 +256,8 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
           title: 'Milk - normal milk',
           price: 7200
         }
-      ]
+      ],
+      selectedAdds: []
     },
   ])
 
@@ -270,7 +280,8 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
           title: 'Milk - normal milk',
           price: 7200
         }
-      ]
+      ],
+      selectedAdds: []
     },
     {
       id: 7,
@@ -290,7 +301,8 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
           title: 'Milk - normal milk',
           price: 7200
         }
-      ]
+      ],
+      selectedAdds: []
     },
     {
       id: 8,
@@ -310,7 +322,8 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
           title: 'Milk - normal milk',
           price: 7200
         }
-      ]
+      ],
+      selectedAdds: []
     },
     {
       id: 9,
@@ -330,7 +343,8 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
           title: 'Milk - normal milk',
           price: 7200
         }
-      ]
+      ],
+      selectedAdds: []
     },
     {
       id: 11,
@@ -350,7 +364,8 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
           title: 'Milk - normal milk',
           price: 7200
         }
-      ]
+      ],
+      selectedAdds: []
     },
   ])
 
