@@ -1,13 +1,11 @@
 <script setup>
 import AppButton from "@/components/UI/AppButton.vue";
-import {computed, ref, watch} from "vue";
+import {computed, ref} from "vue";
 import IconPlus from "@/components/icons/IconPlus.vue";
 import IconMinus from "@/components/icons/IconMinus.vue";
 import {useCartStore} from "@/stores/cart.js";
 import Modal from "@/components/modals/Modal.vue";
 import CheckboxLine from "@/components/restaurants/CheckboxLine.vue";
-import formatPrice from "@/utils/formatPrice.js";
-import AppCheckbox from "@/components/UI/AppCheckbox.vue";
 
 const props = defineProps({
   id: Number,
@@ -15,7 +13,14 @@ const props = defineProps({
   image: String,
   name: String,
   measure: String,
-  available: Boolean,
+  available: {
+    type: Boolean,
+    default: true,
+  },
+  availableText: {
+    type: String,
+    default: "",
+  },
   grid: Boolean,
   count: Number,
   description: String,
@@ -46,7 +51,9 @@ const decrementCount = () => {
 const modal = ref(null);
 
 const openModal = () => {
-  modal.value.openModal();
+  if (props.available) {
+    modal.value.openModal();
+  }
 };
 
 const closeModal = () => {
@@ -67,11 +74,20 @@ const addAddsToCart = (addItem) => {
 const isAddChecked = (add) => {
   return inCart.value?.selectedAdds?.some(item => add.title === item.title) || false;
 };
+
+const btnText = computed(() => {
+  if (props.availableText === "") {
+    return props.available ? 'Order' : 'Not available'
+  } else {
+    return props.availableText;
+  }
+})
+
 </script>
 
 <template>
 <div class="card" :class="{'card-in_grid': grid}">
-  <div @click.stop="openModal" class="card-image">
+  <div @click.stop="openModal" class="card-image" :class="{'card-not_available': !available}">
     <img src="@/assets/images/food.png" alt="">
   </div>
   <div class="card-name" @click.stop="openModal">{{name}}</div>
@@ -83,7 +99,8 @@ const isAddChecked = (add) => {
     class="w-full mt-[14px]"
     sm
     transparent
-    text="Order"
+    :disabled="!available"
+    :text="btnText"
   />
 
   <div v-else class="flex justify-between items-center mt-[9px]">
@@ -166,6 +183,10 @@ const isAddChecked = (add) => {
 
 .card-in_grid {
   @apply w-full h-auto
+}
+
+.card-not_available img {
+  @apply grayscale
 }
 
 .quantity-btn {

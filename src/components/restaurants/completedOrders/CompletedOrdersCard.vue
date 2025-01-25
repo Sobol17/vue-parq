@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-<RouterLink :to="{name: 'orderId', params: {id: id}}" class="bg-black-300 p-5 flex items-center gap-x-4 rounded-[15px]">
+<RouterLink to="/orders/1" class="bg-black-300 p-5 flex items-center gap-x-4 rounded-[15px]">
   <div class="w-full flex items-start justify-between">
     <div>
       <p class="text-body-l-bold mb-2">{{title}}</p>

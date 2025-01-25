@@ -49,6 +49,7 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
     {
       id: 1,
       name: 'Kurure ramen asian',
+      available: true,
       measure: '312g',
       price: 31200,
       count: 1,
@@ -70,6 +71,8 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
     {
       id: 2,
       name: 'Kurure ramen asian1',
+      available: false,
+      availableText: 'Example text',
       measure: '311g',
       price: 22200,
       count: 1,
@@ -91,6 +94,7 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
     {
       id: 3,
       name: 'Kurure ramen asian2',
+      available: false,
       measure: '311g',
       price: 11200,
       count: 1,
@@ -112,6 +116,7 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
     {
       id: 4,
       name: 'Kurure ramen asian4',
+      available: true,
       measure: '312g',
       price: 31200,
       count: 1,
@@ -133,6 +138,7 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
     {
       id: 5,
       name: 'Kurure ramen asian5',
+      available: true,
       measure: '312g',
       price: 31200,
       count: 1,

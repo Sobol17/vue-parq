@@ -15,6 +15,10 @@ export const useCartStore = defineStore('cart', () => {
     elements: []
   })
 
+  const isCartEmpty = computed(() => {
+    return cartData.value.elements.length <= 0
+  })
+
   const addToCart = (element) => {
     cartData.value.elements.push(element)
   }
@@ -57,6 +61,7 @@ export const useCartStore = defineStore('cart', () => {
     removeFromCart,
     incrementCount,
     decrementCount,
-    totalPrice
+    totalPrice,
+    isCartEmpty
   }
 })

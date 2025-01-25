@@ -56,7 +56,7 @@ const hasSlots = computed(()=>!!slots.default)
 
 <style scoped>
 .button {
-  @apply text-button text-white bg-green px-5 h-[52px] rounded-[15px] flex flex-row items-center justify-center gap-x-1 hover:bg-green-dark transition-colors active:bg-green-dark disabled:bg-neutral-300 disabled:text-neutral-500;
+  @apply text-button text-white bg-green px-5 h-[52px] rounded-[15px] flex flex-row items-center justify-center gap-x-1 hover:bg-green-dark transition-colors active:bg-green-dark disabled:text-neutral-500 text-nowrap;
 }
 
 .button:disabled {
