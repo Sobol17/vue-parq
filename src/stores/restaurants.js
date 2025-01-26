@@ -1,384 +1,63 @@
-import {ref, computed, shallowRef} from 'vue'
+import {computed, ref} from 'vue'
 import {defineStore} from 'pinia'
-import IconBreakfast from "@/components/icons/food/IconBreakfast.vue";
-import IconBeer from "@/components/icons/food/IconBeer.vue";
-import IconCakes from "@/components/icons/food/IconCakes.vue";
-import IconGrill from "@/components/icons/food/IconGrill.vue";
-import IconJapanDesert from "@/components/icons/food/IconJapanDesert.vue";
-import IconMaki from "@/components/icons/food/IconMaki.vue";
-import IconSashimi from "@/components/icons/food/IconSashimi.vue";
-import IconWok from "@/components/icons/food/IconWok.vue";
+import restaurantService from "@/service/restaurants.js";
 
 export const useRestaurantsStore = defineStore('restaurants', () => {
-  const categories = shallowRef([
-    {
-      icon: IconBreakfast,
-      text: 'All day breakfast'
-    },
-    {
-      icon: IconBeer,
-      text: 'Beer'
-    },
-    {
-      icon: IconCakes,
-      text: 'Cakes'
-    },
-    {
-      icon: IconGrill,
-      text: 'Grill'
-    },
-    {
-      icon: IconJapanDesert,
-      text: 'Japanese desert'
-    },
-    {
-      icon: IconMaki,
-      text: 'Maki'
-    },
-    {
-      icon: IconSashimi,
-      text: 'Sashimi'
-    },
-    {
-      icon: IconWok,
-      text: 'Wok'
-    },
-  ])
+  const dataFetching = ref(true)
 
-  const recentlyOrdered = ref([
-    {
-      id: 1,
-      name: 'Kurure ramen asian',
-      available: true,
-      measure: '312g',
-      price: 31200,
-      count: 1,
-      description: 'During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will',
-      adds: [
-        {
-          title: 'Milk - soy milk',
-          price: 15200
-        },
-        {
-          title: 'Milk - normal milk',
-          price: 7200
-        }
-      ],
-      selectedAdds: []
-    },
-    {
-      id: 2,
-      name: 'Kurure ramen asian1',
-      available: false,
-      availableText: 'Example text',
-      measure: '311g',
-      price: 22200,
-      count: 1,
-      description: 'During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will',
-      adds: [
-        {
-          title: 'Milk - soy milk',
-          price: 15200
-        },
-        {
-          title: 'Milk - normal milk',
-          price: 7200
-        }
-      ],
-      selectedAdds: []
-    },
-    {
-      id: 3,
-      name: 'Kurure ramen asian2',
-      available: false,
-      measure: '311g',
-      price: 11200,
-      count: 1,
-      description: 'During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will',
-      adds: [
-        {
-          title: 'Milk - soy milk',
-          price: 15200
-        },
-        {
-          title: 'Milk - normal milk',
-          price: 7200
-        }
-      ],
-      selectedAdds: []
-    },
-    {
-      id: 4,
-      name: 'Kurure ramen asian4',
-      available: true,
-      measure: '312g',
-      price: 31200,
-      count: 1,
-      description: 'During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will',
-      adds: [
-        {
-          title: 'Milk - soy milk',
-          price: 15200
-        },
-        {
-          title: 'Milk - normal milk',
-          price: 7200
-        }
-      ],
-      selectedAdds: []
-    },
-    {
-      id: 5,
-      name: 'Kurure ramen asian5',
-      available: true,
-      measure: '312g',
-      price: 31200,
-      count: 1,
-      description: 'During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will',
-      adds: [
-        {
-          title: 'Milk - soy milk',
-          price: 15200
-        },
-        {
-          title: 'Milk - normal milk',
-          price: 7200
-        }
-      ],
-      selectedAdds: []
-    },
-  ])
+  const restaurants = ref([])
+  const activeRestaurant = ref({})
 
-  const popularDishes = ref([
-    {
-      id: 6,
-      name: 'Kurure ramen asian',
-      measure: '312g',
-      price: 31200,
-      count: 1,
-      description: 'During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will',
-      adds: [
-        {
-          title: 'Milk - soy milk',
-          price: 15200
-        },
-        {
-          title: 'Milk - normal milk',
-          price: 7200
-        }
-      ],
-      selectedAdds: []
-    },
-    {
-      id: 7,
-      name: 'Kurure ramen asian1',
-      measure: '311g',
-      price: 22200,
-      count: 1,
-      description: 'During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will',
-      adds: [
-        {
-          title: 'Milk - soy milk',
-          price: 15200
-        },
-        {
-          title: 'Milk - normal milk',
-          price: 7200
-        }
-      ],
-      selectedAdds: []
-    },
-    {
-      id: 8,
-      name: 'Kurure ramen asian2',
-      measure: '311g',
-      price: 11200,
-      count: 1,
-      description: 'During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will',
-      adds: [
-        {
-          title: 'Milk - soy milk',
-          price: 15200
-        },
-        {
-          title: 'Milk - normal milk',
-          price: 7200
-        }
-      ],
-      selectedAdds: []
-    },
-    {
-      id: 9,
-      name: 'Kurure ramen asian4',
-      measure: '312g',
-      price: 31200,
-      count: 1,
-      description: 'During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will',
-      adds: [
-        {
-          title: 'Milk - soy milk',
-          price: 15200
-        },
-        {
-          title: 'Milk - normal milk',
-          price: 7200
-        }
-      ],
-      selectedAdds: []
-    },
-    {
-      id: 11,
-      name: 'Kurure ramen asian5',
-      measure: '312g',
-      price: 43200,
-      count: 1,
-      description: 'During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will',
-      adds: [
-        {
-          title: 'Milk - soy milk',
-          price: 15200
-        },
-        {
-          title: 'Milk - normal milk',
-          price: 7200
-        }
-      ],
-      selectedAdds: []
-    },
-  ])
+  const fetchRestaurants = async () => {
+    const res = await restaurantService.getAllRestaurants()
+    restaurants.value = res.data.data
+    activeRestaurant.value = res.data.data[0]
+  }
 
-  const exampleCat = ref([
-    {
-      id: 6,
-      name: 'Kurure ramen asian',
-      measure: '312g',
-      price: 31200,
-      count: 1,
-      description: 'During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will',
-      adds: [
-        {
-          title: 'Milk - soy milk',
-          price: 15200
-        },
-        {
-          title: 'Milk - normal milk',
-          price: 7200
-        }
-      ],
-      selectedAdds: []
-    },
-    {
-      id: 7,
-      name: 'Kurure ramen asian1',
-      measure: '311g',
-      price: 22200,
-      count: 1,
-      description: 'During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will',
-      adds: [
-        {
-          title: 'Milk - soy milk',
-          price: 15200
-        },
-        {
-          title: 'Milk - normal milk',
-          price: 7200
-        }
-      ],
-      selectedAdds: []
-    },
-    {
-      id: 8,
-      name: 'Kurure ramen asian2',
-      measure: '311g',
-      price: 11200,
-      count: 1,
-      description: 'During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will',
-      adds: [
-        {
-          title: 'Milk - soy milk',
-          price: 15200
-        },
-        {
-          title: 'Milk - normal milk',
-          price: 7200
-        }
-      ],
-      selectedAdds: []
-    },
-    {
-      id: 9,
-      name: 'Kurure ramen asian4',
-      measure: '312g',
-      price: 31200,
-      count: 1,
-      description: 'During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will',
-      adds: [
-        {
-          title: 'Milk - soy milk',
-          price: 15200
-        },
-        {
-          title: 'Milk - normal milk',
-          price: 7200
-        }
-      ],
-      selectedAdds: []
-    },
-    {
-      id: 11,
-      name: 'Kurure ramen asian5',
-      measure: '312g',
-      price: 43200,
-      count: 1,
-      description: 'During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will During the opening ceremony and dance warm-up, we will connect with each other to dance as one big tribe.\n' +
-        'DJ Aman the opening ceremony and dance will',
-      adds: [
-        {
-          title: 'Milk - soy milk',
-          price: 15200
-        },
-        {
-          title: 'Milk - normal milk',
-          price: 7200
-        }
-      ],
-      selectedAdds: []
-    },
-  ])
+  const categories = ref([])
+  const chunkedCategories = ref([])
+
+  const recentlyOrdered = ref([])
+  const popularDishes = ref([])
+
+  const searchQuery = ref('')
+  const searchCategories = computed(() => {
+    return categories.value.filter(item => item.title.toLowerCase().includes(searchQuery.value.toLowerCase()))
+  })
+
+  const fetchCategories = async () => {
+    dataFetching.value = true
+    const res = await restaurantService.getCategoriesByRestaurantId(activeRestaurant.value.id)
+    categories.value = res.data.data?.categories
+
+    chunkedCategories.value = res.data.data?.categories?.reduce((resultArray, item, index) => {
+      const chunkIndex = Math.floor(index / 8);
+
+      if (!resultArray[chunkIndex]) {
+        resultArray[chunkIndex] = [];
+      }
+
+      resultArray[chunkIndex].push(item);
+
+      return resultArray;
+    }, []);
+
+    recentlyOrdered.value = res.data.data?.recent_dishes
+    popularDishes.value = res.data.data?.popular_dishes
+
+    dataFetching.value = false
+  }
 
   return {
+    dataFetching,
     categories,
+    chunkedCategories,
     recentlyOrdered,
     popularDishes,
-    exampleCat
+    restaurants,
+    fetchRestaurants,
+    fetchCategories,
+    searchCategories,
+    searchQuery
   }
 })

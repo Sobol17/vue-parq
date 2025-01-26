@@ -28,7 +28,7 @@ const type = ref('dasdas')
 </script>
 
 <template>
-<main>
+<div>
   <Header link="/" title="Your order" white/>
   <div class="flex flex-col gap-y-6">
     <div class="flex flex-col gap-y-3 mt-6">
@@ -156,7 +156,7 @@ const type = ref('dasdas')
       </div>
     </Modal>
   </Teleport>
-</main>
+</div>
 </template>
 
 <style scoped>
@@ -167,6 +167,6 @@ const type = ref('dasdas')
   @apply py-5 px-3 rounded-[15px] bg-white flex items-center gap-x-4;
 }
 .order__total--fixed {
-  @apply fixed bottom-0 left-0 right-0 rounded-t-[15px] border border-solid border-neutral-300 py-4 px-5;
+  @apply max-w-[800px] mx-auto fixed bottom-0 left-0 right-0 rounded-t-[15px] border border-solid border-neutral-300 py-4 px-5;
 }
 </style>

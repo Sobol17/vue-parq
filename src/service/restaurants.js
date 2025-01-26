@@ -1,18 +1,18 @@
 import HttpClient from "@/service/HttpClient.js";
 
-
 class RestaurantService extends HttpClient {
     constructor() {
         super();
     }
 
-    async getData() {
-        return await this.get('/quizzes');
+    async getAllRestaurants() {
+        return await this.get('/food/menu/restaurants');
     }
 
-    async sendData(data) {
-        return await this.post('/quizzes/win', data);
+    async getCategoriesByRestaurantId(restaurantId, limit = 99) {
+        return await this.get('/food/menu/dishes_group?restaurant=' + restaurantId + '&limit=' + limit);
     }
+
 }
 
 const restaurantService = new RestaurantService();

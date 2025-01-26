@@ -83,12 +83,16 @@ const btnText = computed(() => {
   }
 })
 
+const addsHaveRequired = computed(() => {
+  return inCart.value?.selectedAdds?.some(item => item.required === 1)
+})
+
 </script>
 
 <template>
 <div class="card" :class="{'card-in_grid': grid}">
   <div @click.stop="openModal" class="card-image" :class="{'card-not_available': !available}">
-    <img src="@/assets/images/food.png" alt="">
+    <img :src="image" :alt="name">
   </div>
   <div class="card-name" @click.stop="openModal">{{name}}</div>
   <div class="card-measure">{{measure}}</div>
@@ -132,26 +136,32 @@ const btnText = computed(() => {
             <span class="relative z-[2]">Read more</span>
           </div>
         </div>
-        <div class="text-body-m-medium mt-6">Type of milk</div>
-        <div class="flex flex-col gap-y-3 mt-3">
-          <CheckboxLine
-            v-for="item in adds"
-            :key="item"
-            :item="item"
-            :is-checked="isAddChecked(item)"
-            @update:checked="addAddsToCart(item)"
-          />
+
+        <div v-for="add in adds" :key="add.id">
+          <div class="text-body-m-medium mt-6">{{ add.title }}</div>
+          <div class="flex flex-col gap-y-3 mt-3">
+            <CheckboxLine
+              v-for="item in add.modifiers"
+              :key="item.id"
+              :title="item.title"
+              :price="item.price_number"
+              :is-checked="isAddChecked(item)"
+              @update:checked="addAddsToCart(item)"
+            />
+          </div>
         </div>
+
       </div>
 
       <div class="sticky bottom-0 bg-white rounded-t-[15px] border border-solid border-neutral-300 py-4 px-5">
         <div class="flex gap-x-3">
           <AppButton
-            @click="closeModal"
-            class="w-full"
-            text="Order"
-            :price="cartStore.totalPrice"
-            gold
+              :disabled="addsHaveRequired"
+              @click="closeModal"
+              class="w-full"
+              text="Order"
+              :price="cartStore.totalPrice"
+              gold
           />
         </div>
       </div>

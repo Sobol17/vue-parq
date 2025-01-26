@@ -173,4 +173,96 @@ body:has(.task__base) {
     margin-right: 0 !important;
     vertical-align: baseline;
   }
+
+  /* border decoration styles */
+
+  .border-decor__items {
+    @apply hidden sm:block
+  }
+
+  .border-decor__line {
+    --line-length: calc(100% - 2 * (20px + 20px));
+    --padding: 20px;
+    --border-radius: 20px;
+    --line-width: 1px;
+
+    position: absolute;
+    margin-bottom: 10px;
+    background-color: #E4D49A47;
+  }
+  .border-decor__corner {
+    position: absolute;
+    margin-bottom: 10px;
+    width: calc(2 * 20px);
+    height: calc(2 * 20px);
+    border-radius: 50%;
+    border: 1px solid transparent;
+    border-top: 1px solid #E4D49A47;
+    transform-origin: center;
+  }
+  .border-decor__line:nth-child(1) {
+    top: var(--padding);
+    left: calc(var(--padding) + var(--border-radius));
+    width: var(--line-length);
+    height: var(--line-width);
+  }
+  .border-decor__line:nth-child(2) {
+    top: calc(var(--padding) + var(--border-radius));
+    right: var(--padding);
+    width: var(--line-width);
+    height: calc(var(--line-length) - 10px);
+  }
+  .border-decor__line:nth-child(3) {
+    bottom: var(--padding);
+    left: calc(var(--padding) + var(--border-radius));
+    width: var(--line-length);
+    height: var(--line-width);
+  }
+  .border-decor__line:nth-child(4) {
+    top: calc(var(--padding) + var(--border-radius));
+    left: var(--padding);
+    width: var(--line-width);
+    height: calc(var(--line-length) - 10px);
+  }
+  .border-decor__corner:nth-child(1) {
+    transform: rotateZ(135deg);
+    top: 0;
+    left: 0;
+  }
+  .border-decor__corner:nth-child(2) {
+    transform: rotateZ(225deg);
+    top: 0;
+    right: 0;
+  }
+  .border-decor__corner:nth-child(3) {
+    transform: rotateZ(315deg);
+    bottom: 0;
+    right: 0;
+  }
+  .border-decor__corner:nth-child(4) {
+    transform: rotateZ(45deg);
+    bottom: 0;
+    left: 0;
+  }
+  .border-decor--with-circles .border-decor__corner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .border-decor--with-circles .border-decor__corner::before {
+    content: '';
+    display: block;
+    width: 10px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px solid #E4D49A;
+  }
+
+  .border-decor--with-circles .border-decor__line {
+    background-color: #E4D49A;
+  }
+
+  .border-decor--with-circles .border-decor__corner {
+    border-top: 1px solid #E4D49A;
+  }
 }

@@ -1,13 +1,17 @@
 <script setup>
 import AppCheckbox from "@/components/UI/AppCheckbox.vue";
-import { computed } from "vue";
 import formatPrice from "../../utils/formatPrice.js";
 
 const props = defineProps({
-  item: {
-    type: Object,
+  title: {
+    type: String,
     required: true,
   },
+  price: {
+    type: Number,
+    required: true,
+  },
+
   isChecked: {
     type: Boolean,
     required: true,
@@ -45,8 +49,8 @@ const handleCheckboxChange = (value) => {
       circle
     />
     <div class="line-label">
-      <div class="line-title" :class="{'line-title--disabled': disabled}">{{ item.title }}</div>
-      <div v-if="withoutPrice" class="text-body-m-medium text-green ml-auto">+ {{ formatPrice(item.price) }}</div>
+      <div class="line-title" :class="{'line-title--disabled': disabled}">{{ title }}</div>
+      <div v-if="withoutPrice" class="text-body-m-medium text-green ml-auto">{{ formatPrice(price) }}</div>
       <div v-if="additionalText" class="text-body-m-regular text-neutral-500 ml-auto">{{ additionalText }}</div>
     </div>
   </div>

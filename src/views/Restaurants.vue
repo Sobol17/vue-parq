@@ -16,12 +16,10 @@ import AppButton from "@/components/UI/AppButton.vue";
 import {useCartStore} from "@/stores/cart.js";
 import {useRoute, useRouter} from "vue-router";
 import ActiveOrdersSheet from "@/components/restaurants/ActiveOrdersSheet.vue";
-import SkeletonLoader from "@/components/UI/SkeletonLoader.vue";
 import RestaurantsViewSkeleton from "@/components/restaurants/RestaurantsViewSkeleton.vue";
+import RestaurantSection from "@/components/restaurants/RestaurantSection.vue";
 
 const modules = [ Pagination ];
-
-const search = ref('')
 
 const restaurantsStore = useRestaurantsStore()
 const cartStore = useCartStore()
@@ -32,15 +30,7 @@ const handleScroll = () => {
   fixedHeader.value = window.scrollY > 300;
 };
 
-const isLoading = ref(false)
-
 onMounted(() => {
-  isLoading.value = true
-
-  setTimeout(() => {
-    isLoading.value = false
-  }, 1000)
-
   window.addEventListener('scroll', handleScroll);
 })
 
@@ -65,13 +55,13 @@ const pushToCart = () => {
 <div class="container" :class="{'pt-[48px]': fixedHeader}">
   <RestaurantsHeader :fixed="fixedHeader" />
 
-  <div v-if="!isLoading">
+  <div v-if="!restaurantsStore.dataFetching">
 
     <AppSearch
         class="mt-6"
         name="search"
         placeholder="Search"
-        v-model="search"
+        v-model="restaurantsStore.searchQuery"
     />
 
     <section>
@@ -83,22 +73,22 @@ const pushToCart = () => {
       <swiper
           :slides-per-view="1"
           :pagination="{
-      el: '.categories-pagination',
-      clickable: true,
-      type: 'bullets',
-      bulletClass: 'category-bullet',
-      bulletActiveClass: 'category-bullet-active'
-    }"
+            el: '.categories-pagination',
+            clickable: true,
+            type: 'bullets',
+            bulletClass: 'category-bullet',
+            bulletActiveClass: 'category-bullet-active'
+          }"
           :modules="modules"
       >
-        <swiper-slide v-for="item in 4">
-          <div class="grid grid-cols-4 gap-[10px] mt-[18px]">
+        <swiper-slide v-for="item in restaurantsStore.chunkedCategories" :key="item">
+          <div class="grid grid-cols-4 sm:grid-cols-5 gap-[10px] mt-[18px]">
             <CategoryItem
-                v-for="category in restaurantsStore.categories"
+                v-for="category in item"
                 :key="category.text"
-                :icon="category.icon"
-                :text="category.text"
-                :is-active="route.hash === `#${category.text.toLowerCase()}`"
+                :icon="category.image"
+                :text="category.title"
+                :is-active="route.hash === `#${category.title.toLowerCase()}`"
                 @click="scrollToSection"
             />
           </div>
@@ -117,6 +107,7 @@ const pushToCart = () => {
           class="cards-slider"
           slides-per-view="auto"
           :space-between="10"
+          v-if="restaurantsStore.recentlyOrdered.length > 0"
       >
         <swiper-slide class="card-swiper-slide" v-for="item in restaurantsStore.recentlyOrdered">
           <Card
@@ -133,6 +124,8 @@ const pushToCart = () => {
           />
         </swiper-slide>
       </swiper>
+
+      <div v-else class="text-body-xl-medium text-center py-5 text-neutral-500">No data</div>
     </section>
 
     <section id="popular">
@@ -145,6 +138,7 @@ const pushToCart = () => {
           class="cards-slider"
           slides-per-view="auto"
           :space-between="10"
+          v-if="restaurantsStore.popularDishes.length > 0"
       >
         <swiper-slide class="card-swiper-slide" v-for="item in restaurantsStore.popularDishes">
           <Card
@@ -159,29 +153,21 @@ const pushToCart = () => {
           />
         </swiper-slide>
       </swiper>
+
+      <div v-else class="text-body-xl-medium text-center py-5 text-neutral-500">No data</div>
     </section>
 
-    <section id="cofee" class="mb-20">
-      <h3 class="text-body-l-medium text-center mt-6">Cofee</h3>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-[10px] gap-y-[18px] mt-3">
-        <Card
-            v-for="item in restaurantsStore.exampleCat"
-            :id="item.id"
-            :price="item.price"
-            :name="item.name"
-            :measure="item.measure"
-            :count="item.count"
-            :description="item.description"
-            :adds="item.adds"
-            :selected-adds="item.selectedAdds"
-            grid
-        />
-      </div>
-    </section>
+    <RestaurantSection
+      v-for="item in restaurantsStore.searchCategories"
+      :key="item.id"
+      :id="item.id"
+      :title="item.title"
+      :dishes="item.dishes"
+    />
 
-    <div class="fixed bottom-0 left-0 right-0">
+    <div class="fixed bottom-0 left-0 right-0 max-w-[800px] mx-auto">
 
-      <div class="mx-5 mb-3">
+      <div class="mx-5 pb-3">
         <AppButton
             @click="pushToCart"
             class="w-full"
@@ -191,7 +177,7 @@ const pushToCart = () => {
         />
       </div>
 
-      <ActiveOrdersSheet />
+      <ActiveOrdersSheet v-if="false" />
     </div>
   </div>
 
@@ -218,5 +204,9 @@ const pushToCart = () => {
 
 .card-swiper-slide {
   width: 125px !important;
+}
+
+.grid-wrapper {
+  @apply grid grid-cols-[repeat(2,170px)] sm:grid-cols-[repeat(auto-fit,minmax(170px,170px))] gap-x-[10px] gap-y-[18px] mt-3;
 }
 </style>

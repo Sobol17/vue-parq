@@ -14,7 +14,7 @@ const selected = ref(true)
 <template>
 <div>
   <div @click="selected = !selected" class="relative overflow-hidden rounded-[15px]">
-    <img class="w-full h-[120px] object-cover" :src="img"/>
+    <img class="w-full h-[120px] sm:h-[240px] object-cover" :src="img"/>
     <AppCheckbox
       v-model="selected"
       class="absolute top-3 left-3"

@@ -7,7 +7,7 @@ import {useRestaurantsStore} from "@/stores/restaurants.js";
 import IconSettings from "@/components/icons/IconSettings.vue";
 import HeaderCategoryItem from "@/components/restaurants/HeaderCategoryItem.vue";
 import Modal from "@/components/modals/Modal.vue";
-import {ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import IconTable from "@/components/icons/IconTable.vue";
 import RestarauntCard from "@/components/restaurants/RestarauntCard.vue";
 import {useRoute, useRouter} from "vue-router";
@@ -33,7 +33,6 @@ const route = useRoute()
 const scrollToSection = (categoryItem) => {
   router.push({hash: `#${categoryItem.text.toLowerCase()}`})
 }
-
 </script>
 
 <template>
@@ -41,7 +40,7 @@ const scrollToSection = (categoryItem) => {
   <div class="header__inner">
     <IconArrowStroke class="rotate-180" />
     <div class="flex items-center gap-x-2" @click="openModal">
-      <div class="font-lora text-headline">Restaurants</div>
+      <div class="font-lora text-headline cursor-pointer">Restaurants</div>
       <IconArrowDown md />
     </div>
     <AppButton icon text="" @click="router.push('/orders')">
@@ -57,9 +56,9 @@ const scrollToSection = (categoryItem) => {
       <div class="flex space-x-4 pl-1 pr-4">
         <HeaderCategoryItem
           v-for="item in restaurantsStore.categories"
-          :text="item.text"
-          :icon="item.icon"
-          :is-active="route.hash === `#${item.text.toLowerCase()}`"
+          :text="item.title"
+          :icon="item.image"
+          :is-active="route.hash === `#${item.title.toLowerCase()}`"
           @click="scrollToSection"
         />
       </div>
@@ -72,7 +71,7 @@ const scrollToSection = (categoryItem) => {
 
       <div class="flex items-baseline justify-between px-5 mt-4">
         <div class="font-lora text-headline">Choose a restaurant</div>
-        <div @click="closeModal" class="text-body-m-medium text-green">Close</div>
+        <div @click="closeModal" class="text-body-m-medium text-green cursor-pointer">Close</div>
       </div>
 
       <div class="flex items-end justify-center gap-x-1 mt-6">
@@ -82,10 +81,10 @@ const scrollToSection = (categoryItem) => {
 
       <div class="flex flex-col gap-y-6 px-5 my-6">
         <RestarauntCard
-          v-for="i in 8"
-          img="https://placehold.jp/3d4070/ffffff/600x300.png"
-          name="Herbology"
-          menu="Asian meny"
+          v-for="restaurant in restaurantsStore.restaurants"
+          :id="restaurant.id"
+          :img="restaurant.image"
+          :name="restaurant.title"
         />
       </div>
 
@@ -111,7 +110,7 @@ const scrollToSection = (categoryItem) => {
 
 <style scoped>
 .header {
-  @apply pt-2 top-[-13%] transition-all
+  @apply pt-2 top-[-13%] transition-all max-w-[800px] mx-auto;
 }
 
 .header__inner {
@@ -125,7 +124,7 @@ const scrollToSection = (categoryItem) => {
 }
 
 .header--fixed {
-  @apply fixed top-0 left-0 right-0 w-full bg-white-bg z-[10] px-5
+  @apply fixed top-0 left-0 right-0 w-full bg-white-bg z-[10] px-5 sm:px-10
 }
 
 .settings-btn {

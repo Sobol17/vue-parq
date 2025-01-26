@@ -84,6 +84,11 @@ const hasSlots = computed(()=>!!slots.default)
   background-color: #BBAB70 !important;
 }
 
+.gold:disabled {
+  background-color: #adadad !important;
+  color: white !important;
+}
+
 .md {
   @apply h-[45px] text-[13px] rounded-[10px];
 }

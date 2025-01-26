@@ -61,7 +61,7 @@ const type = ref('dasdas')
 </script>
 
 <template>
-<main>
+<div>
   <Header :link="currentRoom ? '/rooms' : '/order'" :title="currentRoom?.title ?? 'Choose a room'" white/>
 
   <div v-if="currentRoom">
@@ -87,7 +87,7 @@ const type = ref('dasdas')
       <p class="text-body-m-regular text-black-300">{{room.title}}</p>
     </AppRadio>
   </div>
-</main>
+</div>
 </template>
 
 <style scoped>

@@ -48,11 +48,11 @@ defineExpose({ openModal, closeModal });
 <style scoped>
 
 .modal-content {
-  @apply fixed inset-x-0 bottom-0 z-50 mx-auto flex flex-col overflow-y-auto bg-white shadow-lg rounded-t-[16px]
+  @apply fixed inset-x-0 bottom-0 z-50 mx-auto flex flex-col overflow-y-auto bg-white shadow-lg rounded-t-[16px] max-w-[800px];
 }
 
 .modal-content--fullscreen {
-  @apply top-0 rounded-none
+  @apply top-0 rounded-none sm:top-[60px] sm:rounded-t-[16px];
 }
 
 .fade-enter-active,

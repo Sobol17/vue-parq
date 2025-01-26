@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-  icon: Object,
+  icon: String,
   text: String,
   isActive: Boolean
 })
@@ -10,7 +10,7 @@ const emits = defineEmits(['click'])
 
 <template>
   <div @click="emits('click', props)" class="header__category" :class="{'category--active': isActive}">
-    <component class="size-4" :is="icon"></component>
+    <img class="size-4" :src="icon" :alt="text">
     <div :class="['text-body-s-regular text-center text-nowrap', isActive ? 'text-black-300' : 'text-neutral-500']">{{text}}</div>
   </div>
 </template>

@@ -6,7 +6,7 @@ import IconParq from "@/components/icons/IconParq.vue";
 </script>
 
 <template>
-<main>
+<div>
   <Header title="Completed Orders" link="/"/>
 
   <div class="mt-6 flex flex-col gap-y-4 pb-8">
@@ -26,7 +26,7 @@ import IconParq from "@/components/icons/IconParq.vue";
       <p class="font-lora text-headline mt-5">No completed orders</p>
     </div>
   </div>
-</main>
+</div>
 </template>
 
 <style scoped>

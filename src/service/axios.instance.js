@@ -1,11 +1,11 @@
 import router from '@/router'
 import axios from 'axios'
+
 const axiosInst = axios.create({
-	baseURL: '',
+	baseURL: 'https://cors-anywhere.herokuapp.com/https://parq-test.agnt.ru/api/v1/app',
 	headers: {
 		Accept: 'application/json',
 	},
-	withCredentials: true,
 })
 
 axiosInst.interceptors.request.use(
@@ -14,6 +14,7 @@ axiosInst.interceptors.request.use(
 		if (token) {
 			config.headers.Authorization = `Bearer ${token}`
 		}
+		config.headers.Origin = 'http://localhost:5173/'
 		return config
 	},
 	error => {
@@ -23,8 +24,6 @@ axiosInst.interceptors.request.use(
 
 axiosInst.interceptors.response.use(
 	async response => {
-		const delay = 300
-		await new Promise(resolve => setTimeout(resolve, delay))
 		return response
 	},
 	error => {
