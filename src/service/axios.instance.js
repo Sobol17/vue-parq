@@ -2,8 +2,8 @@ import router from '@/router'
 import axios from 'axios'
 
 const axiosInst = axios.create({
-	// baseURL: 'https://cors-anywhere.herokuapp.com/https://parq-test.agnt.ru/api/v1/app',
-	baseURL: 'https://parq-test.agnt.ru/api/v1/app',
+	baseURL: 'https://cors-anywhere.herokuapp.com/https://parq-test.agnt.ru/api/v1/app',
+	// baseURL: 'https://parq-test.agnt.ru/api/v1/app',
 	headers: {
 		Accept: 'application/json',
 	},

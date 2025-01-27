@@ -9,7 +9,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <section :id="title" class="mb-20">
+  <section :id="'section' + id" class="mb-20">
     <h3 class="text-body-l-medium text-center mt-6">{{ title }}</h3>
     <div class="grid-wrapper">
       <Card

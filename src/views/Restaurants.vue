@@ -1,7 +1,7 @@
 <script setup>
 import RestaurantsHeader from "@/components/layouts/RestaurantsHeader.vue";
 import AppSearch from "@/components/UI/AppSearch.vue";
-import {onMounted, onUnmounted, ref} from "vue";
+import {nextTick, onMounted, onUnmounted, ref} from "vue";
 import CategoryItem from "@/components/restaurants/CategoryItem.vue";
 import {useRestaurantsStore} from "@/stores/restaurants.js";
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -42,9 +42,18 @@ onUnmounted(() => {
 
 const router = useRouter()
 const route = useRoute()
-const scrollToSection = (categoryItem) => {
-  router.push({hash: `#${categoryItem.text.toLowerCase()}`})
-}
+
+const scrollToSection = async (categoryItem) => {
+  await router.push({ hash: `#section${categoryItem.id}` });
+  await nextTick();
+
+  setTimeout(() => {
+    const element = document.getElementById(`section${categoryItem.id}`);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, 100);
+};
 
 const pushToCart = () => {
   if (!cartStore.isCartEmpty) {
@@ -88,9 +97,10 @@ const pushToCart = () => {
             <CategoryItem
                 v-for="category in item"
                 :key="category.text"
+                :id="category.id"
                 :icon="category.image"
                 :text="category.title"
-                :is-active="route.hash === `#${category.title.toLowerCase()}`"
+                :is-active="route.hash === `#section${category.id}`"
                 @click="scrollToSection"
             />
           </div>

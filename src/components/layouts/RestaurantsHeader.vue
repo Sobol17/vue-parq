@@ -7,7 +7,7 @@ import {useRestaurantsStore} from "@/stores/restaurants.js";
 import IconSettings from "@/components/icons/IconSettings.vue";
 import HeaderCategoryItem from "@/components/restaurants/HeaderCategoryItem.vue";
 import Modal from "@/components/modals/Modal.vue";
-import {onMounted, ref, watch} from "vue";
+import {nextTick, onMounted, ref, watch} from "vue";
 import IconTable from "@/components/icons/IconTable.vue";
 import RestarauntCard from "@/components/restaurants/RestarauntCard.vue";
 import {useRoute, useRouter} from "vue-router";
@@ -30,9 +30,18 @@ const closeModal = () => {
 
 const router = useRouter()
 const route = useRoute()
-const scrollToSection = (categoryItem) => {
-  router.push({hash: `#${categoryItem.text.toLowerCase()}`})
-}
+
+const scrollToSection = async (categoryItem) => {
+  await router.push({ hash: `#section${categoryItem.id}` });
+  await nextTick();
+
+  setTimeout(() => {
+    const element = document.getElementById(`section${categoryItem.id}`);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, 100);
+};
 
 const applyActiveRestaurant = async () => {
   await restaurantsStore.fetchCategories()
@@ -61,9 +70,10 @@ const applyActiveRestaurant = async () => {
       <div class="flex space-x-4 pl-1 pr-4">
         <HeaderCategoryItem
           v-for="item in restaurantsStore.categories"
+          :id="item.id"
           :text="item.title"
           :icon="item.image"
-          :is-active="route.hash === `#${item.title.toLowerCase()}`"
+          :is-active="route.hash === `#section${item.id}`"
           @click="scrollToSection"
         />
       </div>

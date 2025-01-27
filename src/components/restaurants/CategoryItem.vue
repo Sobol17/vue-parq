@@ -1,6 +1,7 @@
 <script setup>
 
 const props = defineProps({
+  id: Number,
   icon: String,
   text: String,
   isActive: Boolean,

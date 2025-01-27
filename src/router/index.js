@@ -6,7 +6,7 @@ import Order from "@/views/Order.vue";
 import Rooms from "@/views/Rooms.vue";
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(process.env.NODE_ENV === 'production' ? '/vue-parq/' : '/'),
   routes: [
     {
       path: '/',
@@ -47,9 +47,9 @@ const router = createRouter({
     //   component: () => import('../views/AboutView.vue'),
     // },
   ],
-  scrollBehavior() {
-    return { top: 0 }
-  }
+  // scrollBehavior() {
+  //   return { top: 0 }
+  // }
 })
 
 export default router
