@@ -49,7 +49,7 @@ const decrementCount = () => {
       <div class="flex items-center gap-x-1" v-for="add in selectedAdds">
         <span class="text-green text-body-m-bold">+</span>
         <div class="text-body-s-medium">{{add.title}}</div>
-        <div class="text-body-s-medium text-green ml-auto">{{formatPrice(add.price)}}</div>
+        <div class="text-body-s-medium text-green ml-auto">{{add.price}}</div>
       </div>
     </div>
     <div class="flex items-center justify-between">

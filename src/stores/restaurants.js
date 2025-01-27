@@ -11,7 +11,7 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
   const fetchRestaurants = async () => {
     const res = await restaurantService.getAllRestaurants()
     restaurants.value = res.data.data
-    activeRestaurant.value = res.data.data[0]
+    activeRestaurant.value = {...res.data.data[0]}
   }
 
   const categories = ref([])
@@ -28,7 +28,14 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
   const fetchCategories = async () => {
     dataFetching.value = true
     const res = await restaurantService.getCategoriesByRestaurantId(activeRestaurant.value.id)
-    categories.value = res.data.data?.categories
+    categories.value = res.data.data?.categories?.map(category => ({
+      ...category,
+      dishes: category.dishes.map(dish => ({
+        ...dish,
+        count: 1,
+        selectedAdds: []
+      }))
+    }));
 
     chunkedCategories.value = res.data.data?.categories?.reduce((resultArray, item, index) => {
       const chunkIndex = Math.floor(index / 8);
@@ -58,6 +65,7 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
     fetchRestaurants,
     fetchCategories,
     searchCategories,
-    searchQuery
+    searchQuery,
+    activeRestaurant
   }
 })

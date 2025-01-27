@@ -1,62 +1,25 @@
 <script setup>
 import AppRadio from "@/components/UI/AppRadio.vue";
-import {computed, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import Header from "@/components/layouts/Header.vue";
 import {useRoute} from "vue-router";
+import {useRoomsStore} from "@/stores/deliveryRooms.js";
+import Loader from "@/components/UI/Loader.vue";
+import {useOrdersStore} from "@/stores/order.js";
 
 const route = useRoute()
 
-const rooms = ref([
-  {
-    id: 1,
-    title: 'SUNSET',
-    lofts: [
-      {
-        id: 1,
-        title: 'SUNSET loft 1',
-      },
-      {
-        id: 2,
-        title: 'SUNSET loft 2',
-      },
-    ]
-  },
-  {
-    id: 2,
-    title: 'AGUNG LOFTS',
-    lofts: [
-      {
-        id: 3,
-        title: 'AGUNG LOFTS 1',
-      },
-      {
-        id: 4,
-        title: 'AGUNG LOFTS 2',
+const roomStore = useRoomsStore()
 
-      },
-    ]
-  },
-  {
-    id: 3,
-    title: 'RETREAT',
-    lofts: [
-      {
-        id: 5,
-        title: 'RETREAT 1',
-      },
-      {
-        id: 6,
-        title: 'RETREAT 2',
-      },
-    ]
-  }
-])
+const orderStore = useOrdersStore()
 
 const currentRoom = computed(() => {
-  return rooms.value.find(room => room.id === Number(route.params.id))
+  return roomStore.rooms.find(room => room.id === Number(route.params.id))
 })
 
-const type = ref('dasdas')
+onMounted(async () => {
+  await roomStore.fetchRooms()
+})
 
 </script>
 
@@ -64,28 +27,31 @@ const type = ref('dasdas')
 <div>
   <Header :link="currentRoom ? '/rooms' : '/order'" :title="currentRoom?.title ?? 'Choose a room'" white/>
 
-  <div v-if="currentRoom">
-    <AppRadio
-      v-for="loft in currentRoom?.lofts"
-      v-model="type"
-      :value="loft.title"
-      :name="loft.title"
-      label
-    >
-      <p class="text-body-m-regular text-black-300">{{loft.title}}</p>
-    </AppRadio>
-  </div>
-
+  <Loader v-if="roomStore.isLoading" />
   <div v-else>
-    <AppRadio
-      v-for="room in rooms"
-      v-model="type"
-      :value="room.title"
-      :name="room.title"
-      label
-    >
-      <p class="text-body-m-regular text-black-300">{{room.title}}</p>
-    </AppRadio>
+    <div v-if="currentRoom">
+      <AppRadio
+          v-for="loft in currentRoom?.rooms"
+          v-model="orderStore.deliveryType"
+          :value="loft.id"
+          :name="loft.id"
+          label
+      >
+        <p class="text-body-m-regular text-black-300">{{loft.group_title}} {{loft.title}}</p>
+      </AppRadio>
+    </div>
+
+    <div v-else>
+      <AppRadio
+          v-for="room in roomStore.rooms"
+          v-model="orderStore.deliveryType"
+          :value="room.title"
+          :name="room.title"
+          label
+      >
+        <RouterLink :to="`/rooms/${room.id}`" class="text-body-m-regular text-black-300">{{room.title}}</RouterLink>
+      </AppRadio>
+    </div>
   </div>
 </div>
 </template>

@@ -30,7 +30,9 @@ const handleScroll = () => {
   fixedHeader.value = window.scrollY > 300;
 };
 
-onMounted(() => {
+onMounted(async () => {
+  await restaurantsStore.fetchRestaurants()
+  await restaurantsStore.fetchCategories()
   window.addEventListener('scroll', handleScroll);
 })
 

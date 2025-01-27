@@ -33,6 +33,11 @@ const route = useRoute()
 const scrollToSection = (categoryItem) => {
   router.push({hash: `#${categoryItem.text.toLowerCase()}`})
 }
+
+const applyActiveRestaurant = async () => {
+  await restaurantsStore.fetchCategories()
+  closeModal()
+}
 </script>
 
 <template>
@@ -40,7 +45,7 @@ const scrollToSection = (categoryItem) => {
   <div class="header__inner">
     <IconArrowStroke class="rotate-180" />
     <div class="flex items-center gap-x-2" @click="openModal">
-      <div class="font-lora text-headline cursor-pointer">Restaurants</div>
+      <div class="font-lora text-headline cursor-pointer">{{ restaurantsStore.activeRestaurant.title || 'Restaurant' }}</div>
       <IconArrowDown md />
     </div>
     <AppButton icon text="" @click="router.push('/orders')">
@@ -82,9 +87,7 @@ const scrollToSection = (categoryItem) => {
       <div class="flex flex-col gap-y-6 px-5 my-6">
         <RestarauntCard
           v-for="restaurant in restaurantsStore.restaurants"
-          :id="restaurant.id"
-          :img="restaurant.image"
-          :name="restaurant.title"
+          :restaurant="restaurant"
         />
       </div>
 
@@ -97,7 +100,7 @@ const scrollToSection = (categoryItem) => {
             secondary
           />
           <AppButton
-            @click="closeModal"
+            @click="applyActiveRestaurant"
             class="flex-grow"
             text="Apply"
           />

@@ -1,28 +1,31 @@
 <script setup>
 import AppCheckbox from "@/components/UI/AppCheckbox.vue";
-import {ref} from "vue";
+import {computed, ref} from "vue";
+import {useRestaurantsStore} from "@/stores/restaurants.js";
 
-defineProps({
-  img: String,
-  name: String,
-  menu: String
+const props = defineProps({
+  restaurant: Object,
 })
 
-const selected = ref(true)
+const restaurantStore = useRestaurantsStore()
+
+const selected = computed(() => {
+  return restaurantStore.activeRestaurant.id === props.restaurant.id
+})
 </script>
 
 <template>
-<div>
-  <div @click="selected = !selected" class="relative overflow-hidden rounded-[15px]">
-    <img class="w-full h-[120px] sm:h-[240px] object-cover" :src="img"/>
+<div @click="restaurantStore.activeRestaurant = props.restaurant">
+  <div class="relative overflow-hidden rounded-[15px]">
+    <img class="w-full h-[120px] sm:h-[240px] object-cover" :src="restaurant.image" :alt="restaurant.title"/>
     <AppCheckbox
-      v-model="selected"
+      :checked="selected"
       class="absolute top-3 left-3"
     />
   </div>
   <div class="flex items-center justify-between mt-2">
-    <div class="text-body-l-medium text-black-400">{{name}}</div>
-    <div class="text-body-s-regular text-neutral-500">{{menu}}</div>
+    <div class="text-body-l-medium text-black-400">{{restaurant.title}}</div>
+    <div class="text-body-s-regular text-neutral-500">{{restaurant.description}}</div>
   </div>
 </div>
 </template>

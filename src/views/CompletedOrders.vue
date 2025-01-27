@@ -1,22 +1,32 @@
 <script setup>
-
 import Header from "@/components/layouts/Header.vue";
 import CompletedOrdersCard from "@/components/restaurants/completedOrders/CompletedOrdersCard.vue";
 import IconParq from "@/components/icons/IconParq.vue";
+import {onMounted} from "vue";
+import {useOrdersStore} from "@/stores/order.js";
+import Loader from "@/components/UI/Loader.vue";
+
+const ordersStore = useOrdersStore()
+
+onMounted(async () => {
+  await ordersStore.fetchOrders()
+})
 </script>
 
 <template>
 <div>
   <Header title="Completed Orders" link="/"/>
 
-  <div class="mt-6 flex flex-col gap-y-4 pb-8">
+  <Loader v-if="ordersStore.isLoading" />
+  <div v-else class="mt-6 flex flex-col gap-y-4 pb-8">
     <CompletedOrdersCard
-      v-for="item in 15"
-      title="Ronin"
-      date="12 decembver 14:32"
-      price="422,000 Rp"
-      :order-status="1"
-      :id="1"
+      v-for="order in ordersStore.orders"
+      :key="order.id"
+      :title="order.restaurant.title"
+      :date="order.date_text"
+      :price="order.price"
+      :order-status="order.status"
+      :id="order.id"
     />
 
     <div class="mx-auto mt-[300px]" v-if="false">

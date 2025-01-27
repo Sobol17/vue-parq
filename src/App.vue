@@ -2,16 +2,11 @@
 import {useRoute} from "vue-router";
 import BorderDecoration from "@/components/UI/BorderDecoration.vue";
 import {onMounted} from "vue";
-import {useRestaurantsStore} from "@/stores/restaurants.js";
 
 const route = useRoute()
-const restaurantsStore = useRestaurantsStore()
 
 onMounted(async () => {
   localStorage.setItem('access_token', '5p9EEGFfKcp6FKv7upTh0YFI72R4Sqi0nsUBRA21PLhLVOz4e7TF8VtNgDSZljV6AUo49FHUWrSyMeq9zgcwsXkrFOrvL2QseOm4RyYRzNcs9wBCVCXV4uSvrhYlr919')
-
-  await restaurantsStore.fetchRestaurants()
-  await restaurantsStore.fetchCategories()
 })
 </script>
 

@@ -13,6 +13,7 @@ const props = defineProps({
   image: String,
   name: String,
   measure: String,
+  count: Number,
   available: {
     type: Boolean,
     default: true,
@@ -22,7 +23,6 @@ const props = defineProps({
     default: "",
   },
   grid: Boolean,
-  count: Number,
   description: String,
   adds: Array,
   selectedAdds: Array
@@ -31,11 +31,13 @@ const props = defineProps({
 const cartStore = useCartStore()
 
 const inCart = computed(() => {
-  return cartStore.cartData.elements.find(element => element.id === props.id)
-})
+  return cartStore.cartData.elements.find(element => element.id === props.id);
+});
+
 
 const { available, grid, adds, ...rest } = props;
 const cartItem = {...rest};
+
 const addToCart = () => {
   cartStore.addToCart(cartItem);
 }
@@ -63,16 +65,25 @@ const closeModal = () => {
 const showFullDescription = ref(false)
 
 
-const addAddsToCart = (addItem) => {
-  if (inCart.value.selectedAdds.includes(addItem)) {
-    inCart.value.selectedAdds = inCart.value.selectedAdds.filter(item => item.title !== addItem.title)
+const addAddsToCart = (addItem, groupId) => {
+  const formatItem = {
+    id: addItem.id,
+    modifier_group_id: groupId,
+    quantity: 1,
+    title: addItem.title,
+    price: addItem.price,
+  }
+
+  if (inCart.value.selectedAdds?.includes(formatItem)) {
+    inCart.value.selectedAdds = inCart.value.selectedAdds?.filter(item => item.title !== formatItem.title)
   } else {
-    inCart.value.selectedAdds.push(addItem)
+
+    inCart.value.selectedAdds?.push(formatItem)
   }
 };
 
 const isAddChecked = (add) => {
-  return inCart.value?.selectedAdds?.some(item => add.title === item.title) || false;
+  return inCart.value?.selectedAdds?.some(item => add.id === item.id) || false;
 };
 
 const btnText = computed(() => {
@@ -100,14 +111,14 @@ const addsHaveRequired = computed(() => {
   <AppButton
     v-if="!inCart"
     @click="addToCart"
-    class="w-full mt-[14px]"
+    class="mt-[14px] absolute bottom-2 left-2 right-2"
     sm
     transparent
     :disabled="!available"
     :text="btnText"
   />
 
-  <div v-else class="flex justify-between items-center mt-[9px]">
+  <div v-else class="absolute bottom-2 left-2 right-2 flex justify-between items-center mt-[9px]">
     <AppButton @click="incrementCount" text="" transparent class="quantity-btn">
       <IconPlus class="size-4" />
     </AppButton>
@@ -144,9 +155,9 @@ const addsHaveRequired = computed(() => {
               v-for="item in add.modifiers"
               :key="item.id"
               :title="item.title"
-              :price="item.price_number"
+              :price="item.price"
               :is-checked="isAddChecked(item)"
-              @update:checked="addAddsToCart(item)"
+              @update:checked="addAddsToCart(item, add.modifier_group_id)"
             />
           </div>
         </div>
@@ -172,7 +183,7 @@ const addsHaveRequired = computed(() => {
 
 <style scoped>
 .card {
-  @apply bg-white rounded-[15px] p-[5px] text-center w-[125px] h-[224px];
+  @apply bg-white rounded-[15px] p-[5px] text-center w-[125px] h-[224px] relative;
 }
 
 .card-image {
@@ -192,7 +203,7 @@ const addsHaveRequired = computed(() => {
 }
 
 .card-in_grid {
-  @apply w-full h-auto
+  @apply w-full h-auto min-h-[290px]
 }
 
 .card-not_available img {

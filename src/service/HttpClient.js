@@ -1,6 +1,6 @@
 import axiosInst from "@/service/axios.instance.js";
 
-class HttpClient {
+export default class HttpClient {
     async get(url, options = {}) {
         try {
             return await axiosInst(url, {method: 'GET', ...options});
@@ -45,5 +45,3 @@ class HttpClient {
         }
     }
 }
-
-export default HttpClient;

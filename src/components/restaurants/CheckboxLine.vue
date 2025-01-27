@@ -8,7 +8,7 @@ const props = defineProps({
     required: true,
   },
   price: {
-    type: Number,
+    type: String,
     required: true,
   },
 
@@ -50,7 +50,7 @@ const handleCheckboxChange = (value) => {
     />
     <div class="line-label">
       <div class="line-title" :class="{'line-title--disabled': disabled}">{{ title }}</div>
-      <div v-if="withoutPrice" class="text-body-m-medium text-green ml-auto">{{ formatPrice(price) }}</div>
+      <div v-if="withoutPrice" class="text-body-m-medium text-green ml-auto">{{ price }}</div>
       <div v-if="additionalText" class="text-body-m-regular text-neutral-500 ml-auto">{{ additionalText }}</div>
     </div>
   </div>

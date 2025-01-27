@@ -4,11 +4,22 @@ import OrderItem from "@/components/restaurants/completedOrders/CompletedOrderIt
 import formatPrice from "../utils/formatPrice.js";
 import IconParqPay from "@/components/icons/IconParqPay.vue";
 import IconCross from "@/components/icons/IconCross.vue";
+import {useOrdersStore} from "@/stores/order.js";
+import {onMounted} from "vue";
+import Loader from "@/components/UI/Loader.vue";
+import {useRoute} from "vue-router";
+import orders from "../service/orders.js";
 
+const route = useRoute()
+const ordersStore = useOrdersStore()
+
+onMounted(async () => {
+  await ordersStore.fetchOrderById(route.params.id)
+})
 </script>
 
 <template>
-<main class="relative">
+<div>
 
   <div class="absolute top-3 right-1 bg-white text-neutral-500 z-10 size-9 rounded-full flex items-center justify-center">
     <IconCross class="size-[12px]" />
@@ -16,24 +27,25 @@ import IconCross from "@/components/icons/IconCross.vue";
 
   <Header title="Completed Order" link="/orders"/>
 
-  <div class="flex flex-col gap-y-3 mt-6">
+  <Loader v-if="ordersStore.isLoading" />
+  <div v-else class="flex flex-col gap-y-3 mt-6">
     <div class="order-block">
       <div class="flex justify-between">
-        <p class="text-body-l-bold">Ronin</p>
-        <p class="text-body-s-regular text-neutral-500">12 decembver 14:32</p>
+        <p class="text-body-l-bold">{{ ordersStore.currentOrder.date_text }}</p>
+        <p class="text-body-s-regular text-neutral-500">Restaurant</p>
       </div>
-      <p class="text-body-s-regular text-neutral-500">Restaurant</p>
+      <p class="text-body-s-regular text-neutral-500">{{ordersStore.currentOrder.restaurant?.title}}</p>
     </div>
 
     <div class="order-block">
       <div class="text-center text-body-l-medium mb-3">Order details</div>
       <div class="flex flex-col gap-y-3">
         <OrderItem
-          v-for="item in 5"
-          name="Kurure ramen asian"
-          info="1 q"
-          imgUrl="/"
-          :price="31000"
+          v-for="item in ordersStore.currentOrder.dishes"
+          :name="item.title"
+          :info="item.quantity + 'q'"
+          :imgUrl="item.image"
+          :price="item.sum"
         />
       </div>
     </div>
@@ -44,24 +56,23 @@ import IconCross from "@/components/icons/IconCross.vue";
       <div class="flex items-center justify-between border-b border-solid border-black-200 py-3 mx-[-20px] w-[calc(100%_+_40px)] px-5">
         <div>
           <p class="text-body-s-medium mb-1">Delivery to room</p>
-          <p class="text-body-s-regular text-neutral-500">BOULEVARD LOFTS, 23 room</p>
+          <p class="text-body-s-regular text-neutral-500">{{ ordersStore.currentOrder.delivery_text }}</p>
         </div>
-        <div>{{formatPrice(10000)}}</div>
       </div>
 
       <div class="flex items-center justify-between border-b border-solid border-black-200 py-5 mx-[-20px] w-[calc(100%_+_40px)] px-5">
         <div>
           <p class="text-body-s-medium mb-1">Order</p>
         </div>
-        <div>{{formatPrice(30000)}}</div>
+        <div>{{ordersStore.currentOrder.price}}</div>
       </div>
 
       <div class="flex items-center justify-between border-b border-solid border-black-200 py-5 mx-[-20px] w-[calc(100%_+_40px)] px-5">
         <div>
-          <p class="text-body-s-medium mb-1">Cashback</p>
+          <p class="text-body-s-medium mb-1">Discount</p>
         </div>
         <div class="flex items-center gap-x-1">
-          <span>+{{formatPrice(3000)}}</span>
+          <span>{{ordersStore.currentOrder.discount_sum}}</span>
           <i>
             <IconParqPay/>
           </i>
@@ -76,18 +87,18 @@ import IconCross from "@/components/icons/IconCross.vue";
               <IconParqPay />
             </i>
             <span>
-              payment method: PARQ Pay
+              payment method: {{ordersStore.currentOrder.payment_details}}
             </span>
           </p>
         </div>
         <div >
-          <span>{{formatPrice(40000)}}</span>
+          <span>{{ordersStore.currentOrder.price}}</span>
         </div>
       </div>
 
     </div>
   </div>
-</main>
+</div>
 </template>
 
 <style scoped>
