@@ -30,6 +30,9 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+#app {
+  @apply bg-black-300;
+}
 .wrapper {
   @apply flex w-full h-full min-h-[100vh] bg-white-bg;
 }

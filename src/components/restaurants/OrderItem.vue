@@ -30,20 +30,24 @@ const incrementCount = () => {
 const decrementCount = () => {
   cartStore.decrementCount(props.id);
 };
+
+const deleteFromCart = () => {
+  cartStore.removeFromCart(props.id)
+}
 </script>
 
 <template>
 <div class="order-item">
   <div class="order-item__img">
-    <img src="@/assets/images/food.png" alt="">
+    <img :src="image" alt="">
   </div>
   <div class="flex-grow">
-    <div class="flex items-center justify-between">
+    <div class="flex items-start justify-between">
       <div>
-        <p class="text-body-m-medium mb-1">{{name}}</p>
+        <p class="text-body-m-medium mb-1 cursor-pointer">{{name}}</p>
         <p class="text-body-s-regular text-neutral-500">{{measure}}</p>
       </div>
-      <IconTrash />
+      <IconTrash class="cursor-pointer" @click="deleteFromCart" />
     </div>
     <div class="flex flex-col gap-y-2 mt-2">
       <div class="flex items-center gap-x-1" v-for="add in selectedAdds">
@@ -54,12 +58,12 @@ const decrementCount = () => {
     </div>
     <div class="flex items-center justify-between">
       <div class="flex justify-between gap-x-3 items-center mt-[9px] bg-neutral-200 rounded-[15px] p-[5px]">
-        <AppButton @click="incrementCount" text="" transparent class="quantity-btn">
-          <IconPlus class="size-4" />
-        </AppButton>
-        <span>{{inCart.count}}</span>
         <AppButton @click="decrementCount" text="" transparent class="quantity-btn">
           <IconMinus class="size-4" />
+        </AppButton>
+        <span>{{inCart.count}}</span>
+        <AppButton @click="incrementCount" text="" transparent class="quantity-btn">
+          <IconPlus class="size-4" />
         </AppButton>
       </div>
 
@@ -75,7 +79,7 @@ const decrementCount = () => {
 }
 
 .order-item__img {
-  @apply w-[85px] h-[85px] rounded-[15px] overflow-hidden;
+  @apply w-[85px] h-[85px] rounded-[15px] overflow-hidden cursor-pointer;
 
   img {
     @apply w-full h-full object-cover;

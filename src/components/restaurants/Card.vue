@@ -132,7 +132,7 @@ const addsHaveRequired = computed(() => {
     <Modal ref="modal" full-screen>
       <div class="px-5 text-center">
         <div class="mt-3 max-w-[400px] mx-auto">
-          <img class="w-full" src="@/assets/images/food.png" alt="">
+          <img class="w-full rounded-[15px]" :src="image" :alt="name">
         </div>
         <div class="text-neutral-400 text-body-m-medium mt-6">Concert</div>
         <div class="font-lora text-headline mt-2">{{name}}</div>
@@ -187,7 +187,7 @@ const addsHaveRequired = computed(() => {
 }
 
 .card-image {
-  @apply rounded-[15px] max-w-[160px] mx-auto overflow-hidden;
+  @apply rounded-[15px] max-w-[160px] mx-auto overflow-hidden cursor-pointer;
 }
 
 .card-image img {

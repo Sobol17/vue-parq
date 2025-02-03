@@ -26,33 +26,35 @@ export const useRestaurantsStore = defineStore('restaurants', () => {
   })
 
   const fetchCategories = async () => {
-    dataFetching.value = true
-    const res = await restaurantService.getCategoriesByRestaurantId(activeRestaurant.value.id)
-    categories.value = res.data.data?.categories?.map(category => ({
-      ...category,
-      dishes: category.dishes.map(dish => ({
-        ...dish,
-        count: 1,
-        selectedAdds: []
-      }))
-    }));
+    if (categories.value.length <= 0) {
+      dataFetching.value = true
+      const res = await restaurantService.getCategoriesByRestaurantId(activeRestaurant.value.id)
+      categories.value = res.data.data?.categories?.map(category => ({
+        ...category,
+        dishes: category.dishes.map(dish => ({
+          ...dish,
+          count: 1,
+          selectedAdds: []
+        }))
+      }));
 
-    chunkedCategories.value = res.data.data?.categories?.reduce((resultArray, item, index) => {
-      const chunkIndex = Math.floor(index / 8);
+      chunkedCategories.value = res.data.data?.categories?.reduce((resultArray, item, index) => {
+        const chunkIndex = Math.floor(index / 8);
 
-      if (!resultArray[chunkIndex]) {
-        resultArray[chunkIndex] = [];
-      }
+        if (!resultArray[chunkIndex]) {
+          resultArray[chunkIndex] = [];
+        }
 
-      resultArray[chunkIndex].push(item);
+        resultArray[chunkIndex].push(item);
 
-      return resultArray;
-    }, []);
+        return resultArray;
+      }, []);
 
-    recentlyOrdered.value = res.data.data?.recent_dishes
-    popularDishes.value = res.data.data?.popular_dishes
+      recentlyOrdered.value = res.data.data?.recent_dishes
+      popularDishes.value = res.data.data?.popular_dishes
 
-    dataFetching.value = false
+      dataFetching.value = false
+    }
   }
 
   return {

@@ -19,7 +19,7 @@ const emits = defineEmits(['click'])
 
 <style scoped>
 .cat-item {
-  @apply flex flex-col items-center justify-between rounded-[15px] bg-white h-[78px] min-w-20 p-2
+  @apply flex flex-col items-center justify-between rounded-[15px] bg-white h-[78px] min-w-20 p-2 cursor-pointer
 }
 
 .cat-item__img {

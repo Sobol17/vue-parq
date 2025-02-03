@@ -66,7 +66,7 @@ export const useOrdersStore = defineStore('orders', () => {
 
         } catch (error) {
             validationErrorText.value = 'Ошибка при оформлении заказа'
-            console.error('Order error:', error)
+            alert('Order error:', error)
         }
     }
 

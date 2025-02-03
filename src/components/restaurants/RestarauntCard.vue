@@ -17,7 +17,7 @@ const selected = computed(() => {
 <template>
 <div @click="restaurantStore.activeRestaurant = props.restaurant">
   <div class="relative overflow-hidden rounded-[15px]">
-    <img class="w-full h-[120px] sm:h-[240px] object-cover" :src="restaurant.image" :alt="restaurant.title"/>
+    <img class="w-full h-[120px] sm:h-[140px] object-cover" :src="restaurant.image" :alt="restaurant.title"/>
     <AppCheckbox
       :checked="selected"
       class="absolute top-3 left-3"

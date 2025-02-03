@@ -35,7 +35,7 @@ defineExpose({ openModal, closeModal });
     >
       <div
         @click="closeModal"
-        class="sticky top-0 bg-white p-[10px] flex justify-center"
+        class="sticky top-0 bg-white p-[10px] flex justify-center cursor-pointer"
       >
         <span class="block content-none w-7 h-[5px] bg-green-light-2 rounded-[3px]"></span>
       </div>

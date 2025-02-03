@@ -18,7 +18,7 @@ const emits = defineEmits(['click'])
 
 <style scoped>
 .header__category {
-  @apply bg-white rounded-[8px] px-[15px] py-[7px] border border-solid border-neutral-200 flex justify-center items-center gap-x-2
+  @apply bg-white rounded-[8px] px-[15px] py-[7px] border border-solid border-neutral-200 flex justify-center items-center gap-x-2 cursor-pointer
 }
 
 .category--active {

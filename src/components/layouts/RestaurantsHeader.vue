@@ -11,12 +11,14 @@ import {nextTick, onMounted, ref, watch} from "vue";
 import IconTable from "@/components/icons/IconTable.vue";
 import RestarauntCard from "@/components/restaurants/RestarauntCard.vue";
 import {useRoute, useRouter} from "vue-router";
+import {useObserverStore} from "@/stores/observer.js";
 
 defineProps({
   fixed: Boolean
 })
 
 const restaurantsStore = useRestaurantsStore()
+const observerStore = useObserverStore()
 
 const modal = ref(null);
 
@@ -31,17 +33,6 @@ const closeModal = () => {
 const router = useRouter()
 const route = useRoute()
 
-const scrollToSection = async (categoryItem) => {
-  await router.push({ hash: `#section${categoryItem.id}` });
-  await nextTick();
-
-  setTimeout(() => {
-    const element = document.getElementById(`section${categoryItem.id}`);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, 100);
-};
 
 const applyActiveRestaurant = async () => {
   await restaurantsStore.fetchCategories()
@@ -74,7 +65,7 @@ const applyActiveRestaurant = async () => {
           :text="item.title"
           :icon="item.image"
           :is-active="route.hash === `#section${item.id}`"
-          @click="scrollToSection"
+          @click="observerStore.scrollToSection"
         />
       </div>
     </div>

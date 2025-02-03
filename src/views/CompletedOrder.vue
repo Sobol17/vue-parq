@@ -1,14 +1,12 @@
 <script setup>
 import Header from "@/components/layouts/Header.vue";
 import OrderItem from "@/components/restaurants/completedOrders/CompletedOrderItem.vue";
-import formatPrice from "../utils/formatPrice.js";
 import IconParqPay from "@/components/icons/IconParqPay.vue";
 import IconCross from "@/components/icons/IconCross.vue";
 import {useOrdersStore} from "@/stores/order.js";
 import {onMounted} from "vue";
 import Loader from "@/components/UI/Loader.vue";
 import {useRoute} from "vue-router";
-import orders from "../service/orders.js";
 
 const route = useRoute()
 const ordersStore = useOrdersStore()
@@ -21,11 +19,11 @@ onMounted(async () => {
 <template>
 <div>
 
-  <div class="absolute top-3 right-1 bg-white text-neutral-500 z-10 size-9 rounded-full flex items-center justify-center">
+  <RouterLink to="/orders" class="absolute top-3 right-1 bg-white text-neutral-500 z-10 size-9 rounded-full flex items-center justify-center">
     <IconCross class="size-[12px]" />
-  </div>
+  </RouterLink>
 
-  <Header title="Completed Order" link="/orders"/>
+  <Header :title="!ordersStore.isLoading ? `${ordersStore.currentOrder.status} Order` : 'Order'" link="/orders"/>
 
   <Loader v-if="ordersStore.isLoading" />
   <div v-else class="flex flex-col gap-y-3 mt-6">

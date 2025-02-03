@@ -15,8 +15,8 @@ export const useCartStore = defineStore('cart', () => {
     cartData.value.elements.push(element)
   }
 
-  const removeFromCart = (element) => {
-    cartData.value.elements = cartData.value.elements.filter(item => item.id !== element.id)
+  const removeFromCart = (id) => {
+    cartData.value.elements = cartData.value.elements.filter(item => item.id !== id)
   }
 
   const incrementCount = (id) => {

@@ -1,7 +1,7 @@
 <script setup>
 import RestaurantsHeader from "@/components/layouts/RestaurantsHeader.vue";
 import AppSearch from "@/components/UI/AppSearch.vue";
-import {nextTick, onMounted, onUnmounted, ref} from "vue";
+import {onMounted, onUnmounted, ref} from "vue";
 import CategoryItem from "@/components/restaurants/CategoryItem.vue";
 import {useRestaurantsStore} from "@/stores/restaurants.js";
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -18,42 +18,33 @@ import {useRoute, useRouter} from "vue-router";
 import ActiveOrdersSheet from "@/components/restaurants/ActiveOrdersSheet.vue";
 import RestaurantsViewSkeleton from "@/components/restaurants/RestaurantsViewSkeleton.vue";
 import RestaurantSection from "@/components/restaurants/RestaurantSection.vue";
+import {useObserverStore} from "@/stores/observer.js";
 
-const modules = [ Pagination ];
+const modules = [ Pagination ]
 
 const restaurantsStore = useRestaurantsStore()
 const cartStore = useCartStore()
+const observerStore = useObserverStore()
 
 const fixedHeader = ref(false)
 
 const handleScroll = () => {
-  fixedHeader.value = window.scrollY > 300;
+  fixedHeader.value = window.scrollY > 300
+  observerStore.handleScroll()
 };
 
 onMounted(async () => {
   await restaurantsStore.fetchRestaurants()
   await restaurantsStore.fetchCategories()
-  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('scroll', handleScroll)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener('scroll', handleScroll)
 })
 
 const router = useRouter()
 const route = useRoute()
-
-const scrollToSection = async (categoryItem) => {
-  await router.push({ hash: `#section${categoryItem.id}` });
-  await nextTick();
-
-  setTimeout(() => {
-    const element = document.getElementById(`section${categoryItem.id}`);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, 100);
-};
 
 const pushToCart = () => {
   if (!cartStore.isCartEmpty) {
@@ -101,7 +92,7 @@ const pushToCart = () => {
                 :icon="category.image"
                 :text="category.title"
                 :is-active="route.hash === `#section${category.id}`"
-                @click="scrollToSection"
+                @click="observerStore.scrollToSection"
             />
           </div>
         </swiper-slide>
@@ -109,7 +100,7 @@ const pushToCart = () => {
       <div class="categories-pagination"></div>
     </section>
 
-    <section id="recently">
+    <section id="recently" v-if="restaurantsStore.recentlyOrdered.length > 0">
       <div class="flex justify-between items-center mt-6">
         <h3 class="text-body-l-medium">Recently ordered</h3>
         <IconFullArrow class="text-green" />
@@ -137,10 +128,9 @@ const pushToCart = () => {
         </swiper-slide>
       </swiper>
 
-      <div v-else class="text-body-xl-medium text-center py-5 text-neutral-500">No data</div>
     </section>
 
-    <section id="popular">
+    <section id="popular" v-if="restaurantsStore.popularDishes.length > 0">
       <div class="flex justify-between items-center mt-6">
         <h3 class="text-body-l-medium">Popular dishes</h3>
         <IconFullArrow class="text-green" />
@@ -150,7 +140,6 @@ const pushToCart = () => {
           class="cards-slider"
           slides-per-view="auto"
           :space-between="10"
-          v-if="restaurantsStore.popularDishes.length > 0"
       >
         <swiper-slide class="card-swiper-slide" v-for="item in restaurantsStore.popularDishes">
           <Card
@@ -165,8 +154,6 @@ const pushToCart = () => {
           />
         </swiper-slide>
       </swiper>
-
-      <div v-else class="text-body-xl-medium text-center py-5 text-neutral-500">No data</div>
     </section>
 
     <RestaurantSection

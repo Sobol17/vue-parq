@@ -40,7 +40,7 @@ const makeOrder = async () => {
 </script>
 
 <template>
-<div>
+<div class="pb-[160px] sm:pb-10">
   <Header link="/" title="Your order" white/>
 
   <div
@@ -63,6 +63,7 @@ const makeOrder = async () => {
             :price="item.price"
             :measure="item.measure"
             :id="item.id"
+            :image="item.image"
         />
       </div>
 
@@ -96,7 +97,6 @@ const makeOrder = async () => {
             @click="makeOrder"
             class="w-full"
             text="Order"
-            :price="cartStore.totalPrice"
             gold
             :disabled="orderStore.validationErrorText !== ''"
         />
@@ -196,6 +196,6 @@ const makeOrder = async () => {
   @apply py-5 px-3 rounded-[15px] bg-white flex items-center gap-x-4;
 }
 .order__total--fixed {
-  @apply max-w-[800px] mx-auto fixed bottom-0 left-0 right-0 rounded-t-[15px] border border-solid border-neutral-300 py-4 px-5;
+  @apply max-w-[800px] mx-auto fixed bottom-0 left-0 right-0 rounded-t-[15px] border border-solid border-neutral-300 py-4 px-5 bg-white;
 }
 </style>
