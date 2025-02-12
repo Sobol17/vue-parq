@@ -8,9 +8,6 @@ export const useObserverStore = defineStore('orders', () => {
     const activeSectionId = ref(null);
 
     const scrollToSection = async (categoryItem) => {
-        // await router.push({ hash: `#section${categoryItem.id}` });
-        // await nextTick();
-
         setTimeout(() => {
             const element = document.getElementById(`section${categoryItem.id}`);
             if (element) {

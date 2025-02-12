@@ -124,6 +124,7 @@ const pushToCart = () => {
             :selected-adds="item.selectedAdds"
             :available="item.available"
             :availableText="item.availableText"
+            :product-category="item.category.title"
           />
         </swiper-slide>
       </swiper>
@@ -151,6 +152,7 @@ const pushToCart = () => {
               :description="item.description"
               :adds="item.adds"
               :selected-adds="item.selectedAdds"
+              :product-category="item.category.title"
           />
         </swiper-slide>
       </swiper>

@@ -19,17 +19,19 @@ onMounted(async () => {
 
   <Loader v-if="ordersStore.isLoading" />
   <div v-else class="mt-6 flex flex-col gap-y-4 pb-8">
-    <CompletedOrdersCard
-      v-for="order in ordersStore.orders"
-      :key="order.id"
-      :title="order.restaurant.title"
-      :date="order.date_text"
-      :price="order.price"
-      :order-status="order.status"
-      :id="order.id"
-    />
+    <div v-if="ordersStore.orders.length > 0">
+      <CompletedOrdersCard
+          v-for="order in ordersStore.orders"
+          :key="order.id"
+          :title="order.restaurant.title"
+          :date="order.date_text"
+          :price="order.price"
+          :order-status="order.status"
+          :id="order.id"
+      />
+    </div>
 
-    <div class="mx-auto mt-[300px]" v-if="false">
+    <div class="mx-auto mt-[300px]" v-else>
       <div class="rounded-full border-2 border-solid border-green size-[150px] flex items-center justify-center mx-auto">
         <IconParq />
       </div>

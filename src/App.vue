@@ -42,7 +42,7 @@ onMounted(async () => {
 }
 
 .left-side {
-  @apply hidden sm:block grow shrink sticky top-0 left-0 h-[100vh] bg-[url(@/assets/images/main-bg.png)];
+  @apply hidden sm:block grow shrink sticky top-0 left-0 h-[100vh] bg-[url(@/assets/images/main-bg.png)] bg-black;
 }
 
 .left-side__img {
@@ -50,6 +50,6 @@ onMounted(async () => {
 }
 
 .right-side {
-  @apply hidden sm:block grow shrink sticky top-0 right-0 h-[100vh] bg-[url(@/assets/images/main-bg.png)];
+  @apply hidden sm:block grow shrink sticky top-0 right-0 h-[100vh] bg-[url(@/assets/images/main-bg.png)] bg-black;
 }
 </style>

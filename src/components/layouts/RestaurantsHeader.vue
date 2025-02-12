@@ -38,12 +38,53 @@ const applyActiveRestaurant = async () => {
   await restaurantsStore.fetchCategories()
   closeModal()
 }
+
+const categoriesContainerRef = ref(null)
+
+// Метод для центрирования активной категории
+const centerActiveCategory = () => {
+  nextTick(() => {
+    const container = categoriesContainerRef.value
+    if (container) {
+      const activeCategory = container.querySelector('.category--active')
+
+      if (activeCategory) {
+        const containerRect = container.getBoundingClientRect()
+        const categoryRect = activeCategory.getBoundingClientRect()
+
+        // Проверяем, находится ли категория уже в центральной области
+        if (
+            categoryRect.left < containerRect.left + containerRect.width / 2 - categoryRect.width / 2 ||
+            categoryRect.right > containerRect.left + containerRect.width / 2 + categoryRect.width / 2
+        ) {
+          const scrollLeft = activeCategory.offsetLeft -
+              (container.offsetWidth / 2) +
+              (activeCategory.offsetWidth / 2)
+
+          container.scroll({
+            left: scrollLeft,
+            behavior: 'smooth'
+          })
+        }
+      }
+    }
+  })
+}
+
+watch(
+    () => route.hash,
+    (newHash) => {
+      centerActiveCategory()
+    }
+)
 </script>
 
 <template>
 <header class="header" :class="{'header--fixed': fixed}">
   <div class="header__inner">
-    <IconArrowStroke class="rotate-180" />
+    <RouterLink to="/home">
+      <IconArrowStroke class="rotate-180" />
+    </RouterLink>
     <div class="flex items-center gap-x-2" @click="openModal">
       <div class="font-lora text-headline cursor-pointer">{{ restaurantsStore.activeRestaurant.title || 'Restaurant' }}</div>
       <IconArrowDown md />
@@ -57,7 +98,7 @@ const applyActiveRestaurant = async () => {
     <AppButton class="settings-btn horizontal-scroll-container" icon text="">
       <IconSettings class="text-white" />
     </AppButton>
-    <div class="header__categories">
+    <div class="header__categories" ref="categoriesContainerRef">
       <div class="flex space-x-4 pl-1 pr-4">
         <HeaderCategoryItem
           v-for="item in restaurantsStore.categories"
@@ -123,8 +164,7 @@ const applyActiveRestaurant = async () => {
 
 .header__categories {
   @apply flex items-center overflow-x-auto mx-[-20px] w-[calc(100%_+_40px)] relative;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  scrollbar-width: thin;
 }
 
 .header--fixed {

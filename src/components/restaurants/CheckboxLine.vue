@@ -1,6 +1,5 @@
 <script setup>
 import AppCheckbox from "@/components/UI/AppCheckbox.vue";
-import formatPrice from "../../utils/formatPrice.js";
 
 const props = defineProps({
   title: {
@@ -41,7 +40,7 @@ const handleCheckboxChange = (value) => {
 </script>
 
 <template>
-  <div class="flex items-center gap-x-4">
+  <div class="flex items-center">
     <AppCheckbox
       :checked="isChecked"
       @update:modelValue="handleCheckboxChange"

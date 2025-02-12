@@ -25,7 +25,8 @@ const props = defineProps({
   grid: Boolean,
   description: String,
   adds: Array,
-  selectedAdds: Array
+  selectedAdds: Array,
+  productCategory: String,
 })
 
 const cartStore = useCartStore()
@@ -119,27 +120,27 @@ const addsHaveRequired = computed(() => {
   />
 
   <div v-else class="absolute bottom-2 left-2 right-2 flex justify-between items-center mt-[9px]">
-    <AppButton @click="incrementCount" text="" transparent class="quantity-btn">
-      <IconPlus class="size-4" />
-    </AppButton>
-    <span>{{inCart.count}}</span>
     <AppButton @click="decrementCount" text="" transparent class="quantity-btn">
       <IconMinus class="size-4" />
+    </AppButton>
+    <span>{{inCart.count}}</span>
+    <AppButton @click="incrementCount" text="" transparent class="quantity-btn">
+      <IconPlus class="size-4" />
     </AppButton>
   </div>
 
   <Teleport to="body">
-    <Modal ref="modal" full-screen>
+    <Modal ref="modal">
       <div class="px-5 text-center">
         <div class="mt-3 max-w-[400px] mx-auto">
           <img class="w-full rounded-[15px]" :src="image" :alt="name">
         </div>
-        <div class="text-neutral-400 text-body-m-medium mt-6">Concert</div>
+        <div class="text-neutral-400 text-body-m-medium mt-6">{{ productCategory }}</div>
         <div class="font-lora text-headline mt-2">{{name}}</div>
         <div class="text-body-s-medium px-[10px] py-[5px] rounded-[8px] bg-neutral-200 w-fit mx-auto text-neutral-500 mt-4">{{measure}}</div>
       </div>
 
-      <div class="px-5 flex-grow">
+      <div class="px-5 flex-grow pb-6 min-h-[400px]">
         <div class="text-body-m-medium mt-6">Description</div>
         <div class="relative">
           <div :class="['mt-2 text-body-s-regular text-neutral-400', showFullDescription ? 'line-clamp-100' : 'line-clamp-3']">{{description}}</div>

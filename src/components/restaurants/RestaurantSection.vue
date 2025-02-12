@@ -9,7 +9,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <section :id="'section' + id" class="mb-20">
+  <section :id="'section' + id" class="mb-6">
     <h3 class="text-body-l-medium text-center mt-6">{{ title }}</h3>
     <div class="grid-wrapper">
       <Card
@@ -23,6 +23,7 @@ const props = defineProps({
         :description="item.ingredients"
         :adds="item.modifiers"
         :selected-adds="item.selectedAdds"
+        :product-category="item.category.title"
         grid
       />
     </div>

@@ -4,10 +4,16 @@ import CompletedOrders from "@/views/CompletedOrders.vue";
 import CompletedOrder from "@/views/CompletedOrder.vue";
 import Order from "@/views/Order.vue";
 import Rooms from "@/views/Rooms.vue";
+import Home from "@/views/Home.vue";
 
 const router = createRouter({
   history: createWebHistory(process.env.NODE_ENV === 'production' ? '/vue-parq/' : '/'),
   routes: [
+    {
+      path: '/home',
+      name: 'home',
+      component: Home,
+    },
     {
       path: '/',
       name: 'restaurants',

@@ -69,7 +69,7 @@ const makeOrder = async () => {
 
       <div class="order__block" @click="openModal(deliveryModal)">
         <IconOrderDelivery />
-        <p class="text-body-m-medium text-black-300">Delivery</p>
+        <p class="text-body-m-medium text-black-300">{{ orderStore.deliveryType }}</p>
         <IconArrowRight bg class="ml-auto" />
       </div>
 
@@ -112,7 +112,7 @@ const makeOrder = async () => {
 
         <AppRadio
           v-model="orderStore.deliveryType"
-          value="takeaway"
+          value="Takeaway"
           name="Takeaway"
           label
         >
@@ -120,7 +120,7 @@ const makeOrder = async () => {
         </AppRadio>
         <AppRadio
           v-model="orderStore.deliveryType"
-          value="room"
+          value="Room"
           name="Room delivery"
           label
           disabled
